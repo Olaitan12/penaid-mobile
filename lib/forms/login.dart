@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:penaid/app-widgets/buttons.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
+  _LoginForm createState() => _LoginForm();
+}
+
+class _LoginForm extends State<LoginForm> {
   GlobalKey<FormState> _loginKey = GlobalKey<FormState>();
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -13,10 +17,10 @@ class LoginForm extends StatelessWidget {
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10), topRight: Radius.circular(10)),
       ),
-      margin: EdgeInsets.symmetric(horizontal: 40),
+      margin: EdgeInsets.symmetric(horizontal: 15),
       padding: EdgeInsets.symmetric(horizontal: 10),
       width: MediaQuery.of(context).size.width,
-      height: 400,
+      height: MediaQuery.of(context).size.height / 2 - 40,
       child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
         Container(
           // height: MediaQuery.of(context).size.height,

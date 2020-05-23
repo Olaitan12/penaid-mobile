@@ -41,5 +41,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Need to know the location of user signing up</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Need to know the location of user signing up</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need to identify the user signing up on the application</string>
 </dict>
 </plist>

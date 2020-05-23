@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:penaid/app-widgets/bottom-sheet/signup-choice.dart';
 import 'package:penaid/app-widgets/buttons.dart';
 import 'package:penaid/forms/login.dart';
+import 'package:penaid/screen/signup.dart';
 
 class _LoginSignup extends State<LoginSignup> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -20,18 +22,17 @@ class _LoginSignup extends State<LoginSignup> {
                 "assets/icon.png",
                 width: 120,
               ),
-              SafeArea(
-                  minimum: EdgeInsets.symmetric(vertical: 20),
-                  child: AppButton(
-                      onPressed: () {
-                        _scaffoldKey.currentState
-                            .showBottomSheet((context) => LoginForm());
-                      },
-                      text: "Login",
-                      width: MediaQuery.of(context).size.width)),
+              AppButton(
+                  onPressed: () {
+                    _scaffoldKey.currentState
+                        .showBottomSheet((context) => LoginForm());
+                  },
+                  text: "Login",
+                  width: MediaQuery.of(context).size.width),
               AppButton(
                 onPressed: () {
-                  // print("YO!");
+                  _scaffoldKey.currentState
+                      .showBottomSheet((context) => SignupChoiceSheet());
                 },
                 text: "Signup",
               )
