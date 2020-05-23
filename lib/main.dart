@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:penaid/notifiers/welcome-slider.dart';
 import 'package:penaid/screen/welcome.dart';
+import 'package:provider/provider.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -7,11 +10,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SliderNotifier sliderNotice = SliderNotifier();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Penaid',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        bottomSheetTheme:
+            BottomSheetThemeData(backgroundColor: Colors.transparent),
+        primarySwatch: Colors.orange,
         textTheme: TextTheme(
           headline1:
               TextStyle(fontSize: 32, fontWeight: FontWeight.w600, height: 3),
@@ -27,7 +33,19 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(fontSize: 14),
         ),
       ),
-      home: WelcomeScreen(title: ''),
+      home: SplashScreen(
+        seconds: 5,
+        navigateAfterSeconds: ChangeNotifierProvider<SliderNotifier>.value(
+          value: sliderNotice,
+          child: WelcomeScreen(slideNotice: sliderNotice),
+        ),
+        title: Text('Getting the app ready for you...'),
+        image: Image.asset('assets/full-logo.png'),
+        backgroundColor: Colors.white,
+        styleTextUnderTheLoader: TextStyle(),
+        photoSize: 100.0,
+        loaderColor: Colors.deepOrange,
+      ),
     );
   }
 }

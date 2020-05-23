@@ -1,31 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:penaid/models/welcome-screen.dart';
+import 'package:penaid/notifiers/welcome-slider.dart';
+import 'package:penaid/screen/login-signup.dart';
+import 'package:provider/provider.dart';
 
-class WelcomeScreen extends StatefulWidget {
-  WelcomeScreen({Key key, this.title}) : super(key: key);
+class WelcomeScreen extends StatelessWidget {
+  WelcomeScreen({Key key, this.slideNotice}) : super(key: key);
 
-  final String title;
+  final SliderNotifier slideNotice;
 
-  @override
-  _WelcomeScreen createState() => _WelcomeScreen();
-}
-
-class _WelcomeScreen extends State<WelcomeScreen> {
-  final List<WelcomeSliderModel> sliders = [
-    WelcomeSliderModel(
-        "Easier Loans",
-        "Applying for loans got easier, with our loaning plans",
-        "welcome-1.png"),
-    WelcomeSliderModel(
-        "Meet your goals",
-        "That goal that you have always wanted to catch up with just go easier with penaid. You get a loan that suits your needs.",
-        "welcome-2.png"),
-    WelcomeSliderModel(
-        "Easier Loans",
-        "Applying for loans got easier, with our loaning plans",
-        "welcome-3.png"),
-  ];
-  @override
+  // @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -35,7 +18,15 @@ class _WelcomeScreen extends State<WelcomeScreen> {
           children: <Widget>[
             Container(
               alignment: Alignment.centerRight,
-              child: Text("Skip"),
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginSignup()));
+                  },
+                  child: Text(
+                    "Skip",
+                    style: Theme.of(context).textTheme.headline5,
+                  )),
               margin: EdgeInsets.symmetric(horizontal: 10),
             ),
             Container(
@@ -43,11 +34,12 @@ class _WelcomeScreen extends State<WelcomeScreen> {
               height: 400,
               child: PageView(
                 scrollDirection: Axis.horizontal,
+                onPageChanged: slideNotice.slide,
                 controller:
                     PageController(viewportFraction: .9, initialPage: 0),
                 // dragStartBehavior: DragStartBehavior.start,
                 children: <Widget>[]..addAll(
-                    sliders.map(
+                    slideNotice.sliders.map(
                       (e) => Container(
                         width: MediaQuery.of(context).size.width,
                         child: Column(
@@ -73,21 +65,26 @@ class _WelcomeScreen extends State<WelcomeScreen> {
                   ),
               ),
             ),
-            Container(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              // verticalDirection: Ver,
-              children: <Widget>[]
-                ..addAll(sliders.asMap().entries.map((e) => Container(
-                      width: 20,
-                      height: 20,
-                      margin: EdgeInsets.symmetric(horizontal: 2),
-                      decoration: BoxDecoration(
-                        color: Colors.orange,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ))),
-            ))
+            Consumer(
+              builder: (context, SliderNotifier data, child) => Container(
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                // verticalDirection: Ver,
+                children: <Widget>[]..addAll(
+                    slideNotice.sliders.asMap().entries.map((e) => Container(
+                          width: 20,
+                          height: 20,
+                          margin: EdgeInsets.symmetric(horizontal: 2),
+                          decoration: BoxDecoration(
+                            color: data.activeIndex == e.key
+                                ? Colors.orange
+                                : Colors.transparent,
+                            border: Border.all(width: 1, color: Colors.orange),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ))),
+              )),
+            ),
           ],
         ),
       ),
