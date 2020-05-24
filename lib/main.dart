@@ -6,7 +6,11 @@ import 'package:splashscreen/splashscreen.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  _MyApp createState() => _MyApp();
+}
+
+class _MyApp extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

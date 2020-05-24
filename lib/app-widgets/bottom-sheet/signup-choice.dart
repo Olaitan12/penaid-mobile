@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:penaid/app-widgets/buttons.dart';
+import 'package:penaid/notifiers/onboarding-progress.dart';
+import 'package:penaid/screen/onboarding/index.dart';
+import 'package:provider/provider.dart';
 
-class SignupChoiceSheet extends StatelessWidget {
+class SignupChoiceSheet extends StatefulWidget {
+  _SignupChoiceSheet createState() => _SignupChoiceSheet();
+}
+
+class _SignupChoiceSheet extends State<SignupChoiceSheet> {
   Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 0),
@@ -17,7 +24,18 @@ class SignupChoiceSheet extends StatelessWidget {
           ),
           AppButton(
             text: "Pension",
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      ChangeNotifierProvider<OnboardingProgressNotifier>(
+                    create: (context) => OnboardingProgressNotifier(),
+                    builder: (context, child) => OnboardingIndexScreen(),
+                  ),
+                ),
+              );
+            },
           ),
           AppButton(
             text: "Agent",

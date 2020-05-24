@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:penaid/app-widgets/bottom-sheet/signup-choice.dart';
 import 'package:penaid/app-widgets/buttons.dart';
 import 'package:penaid/forms/login.dart';
-import 'package:penaid/screen/signup.dart';
 
 class _LoginSignup extends State<LoginSignup> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
