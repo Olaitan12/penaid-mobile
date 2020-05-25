@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:penaid/app-widgets/buttons.dart';
 import 'package:penaid/notifiers/onboarding-progress.dart';
-import 'package:penaid/screen/onboarding/index.dart';
+import 'package:penaid/screen/onboarding/step-one.dart';
 import 'package:provider/provider.dart';
 
 class SignupChoiceSheet extends StatefulWidget {
@@ -31,7 +31,7 @@ class _SignupChoiceSheet extends State<SignupChoiceSheet> {
                   builder: (context) =>
                       ChangeNotifierProvider<OnboardingProgressNotifier>(
                     create: (context) => OnboardingProgressNotifier(),
-                    builder: (context, child) => OnboardingIndexScreen(),
+                    builder: (context, child) => OnboardingStepOneScreen(),
                   ),
                 ),
               );
