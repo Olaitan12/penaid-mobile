@@ -12,6 +12,12 @@ class _LoginSignup extends State<LoginSignup> {
       extendBodyBehindAppBar: true,
       key: _scaffoldKey,
       body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                colorFilter: ColorFilter.linearToSrgbGamma(),
+                fit: BoxFit.cover,
+                image: AssetImage("assets/backgrounds/login.jpg")),
+          ),
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: Column(

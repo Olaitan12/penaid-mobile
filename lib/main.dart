@@ -4,7 +4,9 @@ import 'package:penaid/screen/welcome.dart';
 import 'package:provider/provider.dart';
 import 'package:splashscreen/splashscreen.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   _MyApp createState() => _MyApp();
@@ -19,6 +21,10 @@ class _MyApp extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Penaid',
       theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          elevation: 0,
+          color: Colors.transparent,
+        ),
         bottomSheetTheme:
             BottomSheetThemeData(backgroundColor: Colors.transparent),
         primarySwatch: Colors.orange,
@@ -28,11 +34,9 @@ class _MyApp extends State<MyApp> {
           headline2:
               TextStyle(fontSize: 28, fontWeight: FontWeight.w600, height: 3),
           headline3:
-              TextStyle(fontSize: 24, fontWeight: FontWeight.w600, height: 3),
-          headline4:
-              TextStyle(fontSize: 20, fontWeight: FontWeight.w600, height: 3),
-          headline5:
-              TextStyle(fontSize: 18, fontWeight: FontWeight.w600, height: 3),
+              TextStyle(fontSize: 24, fontWeight: FontWeight.w600, height: 2),
+          headline4: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          headline5: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           bodyText1: TextStyle(fontSize: 16),
           bodyText2: TextStyle(fontSize: 14),
         ),

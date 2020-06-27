@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:penaid/app-widgets/buttons.dart';
+import 'package:penaid/notifiers/dashboard.dart';
+import 'package:penaid/screen/dashboard.dart';
+import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   _LoginForm createState() => _LoginForm();
@@ -13,7 +16,7 @@ class _LoginForm extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color.fromRGBO(255, 255, 255, .8),
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10), topRight: Radius.circular(10)),
       ),
@@ -56,13 +59,37 @@ class _LoginForm extends State<LoginForm> {
                         hintText: "Enter password",
                         prefixIcon: Icon(Icons.lock)),
                     controller: _passwordController,
-                  )
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 15),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.refresh),
+                        Container(child: Text(" Reset password")),
+                      ],
+                    ),
+                  ),
                 ]),
           ),
         ),
         Container(
             margin: EdgeInsets.symmetric(vertical: 10),
-            child: AppButton(text: "Login", onPressed: () {}))
+            child: AppButton(
+                text: "Login",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ChangeNotifierProvider<DashboardScreenNotifier>(
+                        create: (context) => DashboardScreenNotifier(),
+                        child: DashboardScreen(),
+                      ),
+                    ),
+                  );
+                }))
       ]),
     );
   }

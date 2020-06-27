@@ -6,6 +6,16 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.1.0 <3.0.0"
 
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: "^0.7.3"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon.png"
+
 dependencies:
   flutter:
     sdk: flutter
@@ -13,6 +23,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   cached_network_image: ^2.2.0+1
   shared_preferences: ^0.5.7
+  onesignal_flutter: ^2.4.1
   splashscreen: ^1.2.0
   image_picker: ^0.6.6+1
   geolocator: ^5.3.1
@@ -22,10 +33,6 @@ dependencies:
   rxdart: ^0.24.0
   http: ^0.12.0+4
   dio: ^3.0.9
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -39,6 +46,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/states.json
     - assets/images/
     - assets/backgrounds/
   # An image asset can refer to one or more resolution-specific "variants", see
