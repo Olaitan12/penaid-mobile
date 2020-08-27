@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:penaid/app-widgets/buttons.dart';
-// import 'package:penaid/notifiers/dashboard.dart';
-// import 'package:penaid/screen/dashboard.dart';
+import 'package:penaid/models/api.dart';
+import 'package:penaid/notifiers/dashboard.dart';
+import 'package:penaid/screen/dashboard.dart';
 import 'package:penaid/services/api.dart';
-// import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   _LoginForm createState() => _LoginForm();
 }
 
 class _LoginForm extends State<LoginForm> {
+  //Variables
   GlobalKey<FormState> _loginKey = GlobalKey<FormState>();
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  API _api = API();
+  API _api = GetIt.I<API>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -81,21 +85,31 @@ class _LoginForm extends State<LoginForm> {
           child: AppButton(
             text: "Login",
             onPressed: () async {
-              var apiResponse = await _api.postRequest("user/login", {
+              print(_usernameController.text + "  " + _passwordController.text);
+              var response = await _api.postRequest("user/login", {
                 "username": _usernameController.text,
                 "password": _passwordController.text
               });
-              print(apiResponse);
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) =>
-              //         ChangeNotifierProvider<DashboardScreenNotifier>(
-              //       create: (context) => DashboardScreenNotifier(),
-              //       child: DashboardScreen(),
-              //     ),
-              //   ),
-              // );
+              if (response is APIResponseModel) {
+                if (response.status) {
+                  _api.updateHeaderWithToken(response.data);
+                  print(response.data);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ChangeNotifierProvider<DashboardScreenNotifier>(
+                        create: (context) => DashboardScreenNotifier(),
+                        child: DashboardScreen(),
+                      ),
+                    ),
+                  );
+                } else {
+                  print(response.message);
+                }
+              } else {
+                print(response);
+              }
             },
           ),
         )

@@ -48,7 +48,7 @@ flutter:
     - assets/
     - assets/icons/
     - assets/images/
-    - assets/_secure/
+    - assets/_secure/api.json
     - assets/icons/card/
     - assets/states.json
     - assets/backgrounds/

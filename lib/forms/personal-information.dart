@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart' show rootBundle;
 
 class PersonalInfoForm extends StatefulWidget {
   final PageController pageController;
@@ -13,6 +14,7 @@ class _PersonalInfoForm extends State<PersonalInfoForm> {
     setState(() {
       _gender = "male";
     });
+    _loadStateFile();
   }
 
   Widget build(BuildContext context) {
@@ -82,5 +84,10 @@ class _PersonalInfoForm extends State<PersonalInfoForm> {
     setState(() {
       _gender = gender;
     });
+  }
+
+  Future<void> _loadStateFile() async {
+    // var state = rootBundle.loadString("../../assets");
+    // print(state);
   }
 }

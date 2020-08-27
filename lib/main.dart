@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:penaid/notifiers/welcome-slider.dart';
 import 'package:penaid/screen/welcome.dart';
+import 'package:penaid/services/api.dart';
 import 'package:provider/provider.dart';
 import 'package:splashscreen/splashscreen.dart';
 
-void main() async {
+_bootStrap() {
+  GetIt.I.resetLazySingleton(instance: () => API());
+}
+
+void main() {
+  _bootStrap();
   runApp(MyApp());
 }
 
