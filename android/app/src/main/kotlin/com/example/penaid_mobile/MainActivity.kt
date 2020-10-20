@@ -1,4 +1,4 @@
-package com.example.penaid_mobile
+package com.penaid.client
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

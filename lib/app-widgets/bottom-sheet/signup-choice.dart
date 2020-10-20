@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:penaid/app-widgets/buttons.dart';
-import 'package:penaid/notifiers/onboarding-progress.dart';
-import 'package:penaid/screen/onboarding/step-one.dart';
-import 'package:provider/provider.dart';
+import 'package:penaid/screen/onboarding/bvn-verification.dart';
 
 class SignupChoiceSheet extends StatefulWidget {
   _SignupChoiceSheet createState() => _SignupChoiceSheet();
@@ -28,11 +26,7 @@ class _SignupChoiceSheet extends State<SignupChoiceSheet> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      ChangeNotifierProvider<OnboardingProgressNotifier>(
-                    create: (context) => OnboardingProgressNotifier(),
-                    builder: (context, child) => OnboardingStepOneScreen(),
-                  ),
+                  builder: (context) => OnboardingStepOneScreen(),
                 ),
               );
             },

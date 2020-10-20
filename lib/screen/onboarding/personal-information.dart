@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart' show rootBundle;
 
 class PersonalInfoForm extends StatefulWidget {
-  final PageController pageController;
-  PersonalInfoForm(this.pageController);
+  PersonalInfoForm();
   _PersonalInfoForm createState() => _PersonalInfoForm();
 }
 

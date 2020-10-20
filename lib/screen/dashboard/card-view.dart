@@ -18,6 +18,7 @@ class CardManager extends StatelessWidget {
                   elevation: 1.5,
                   margin: EdgeInsets.symmetric(vertical: 15),
                   child: Container(
+                    height: 120,
                     margin: EdgeInsets.all(15),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -26,7 +27,7 @@ class CardManager extends StatelessWidget {
                         Icon(Icons.add_circle, color: Colors.green),
                         Text(
                           "Add new card",
-                          style: Theme.of(context).textTheme.headline3,
+                          style: Theme.of(context).textTheme.headline4,
                         ),
                         Text("Add a new card if we don't have your card details.\n" +
                             "If we don't have your card information it might cause a delay of "),
@@ -44,6 +45,7 @@ class CardManager extends StatelessWidget {
                 elevation: 2.5,
                 margin: EdgeInsets.symmetric(vertical: 15),
                 child: Container(
+                  height: 120,
                   margin: EdgeInsets.all(15),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -52,7 +54,7 @@ class CardManager extends StatelessWidget {
                       Icon(Icons.update, color: Colors.green),
                       Text(
                         "Update existing card details",
-                        style: Theme.of(context).textTheme.headline3,
+                        style: Theme.of(context).textTheme.headline4,
                       ),
                       Text(
                           "In case your old card gets missing, stolen, damaged or expired.\n" +

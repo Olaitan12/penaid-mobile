@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 
-class ErrorWidget extends StatefulWidget {
+class ErrorText extends StatelessWidget {
   final String errorMessage;
-  ErrorWidget(this.errorMessage, {Key key}) : super(key: key);
-  _ErrorWidget createState() => _ErrorWidget();
-}
+  final int verticalMargin;
+  final int horizontalMargin;
+  ErrorText(this.errorMessage,
+      {Key key, this.verticalMargin, this.horizontalMargin})
+      : super(key: key);
 
-class _ErrorWidget extends State<ErrorWidget> {
   Widget build(BuildContext context) {
-    return Text(
-      widget.errorMessage,
-      style: TextStyle(color: Colors.red),
-    );
+    return Container(
+        margin: EdgeInsets.symmetric(
+            horizontal: horizontalMargin ?? 0, vertical: verticalMargin ?? 10),
+        child: Text(
+          errorMessage ?? "",
+          style: TextStyle(color: Colors.red),
+        ));
   }
 }

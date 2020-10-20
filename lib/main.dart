@@ -6,13 +6,13 @@ import 'package:penaid/services/api.dart';
 import 'package:provider/provider.dart';
 import 'package:splashscreen/splashscreen.dart';
 
-_bootStrap() {
-  GetIt.I.resetLazySingleton(instance: () => API());
-}
-
 void main() {
   _bootStrap();
   runApp(MyApp());
+}
+
+void _bootStrap() {
+  GetIt.I.registerLazySingleton(() => API());
 }
 
 class MyApp extends StatefulWidget {
