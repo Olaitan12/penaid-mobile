@@ -29,7 +29,7 @@ class _OTPForm extends State<OTPForm> {
   TextEditingController six = TextEditingController();
   var notifyListner;
   initState() {
-    debugPrint(widget.bvnPayload.toString());
+    // debugPrint(widget.bvnPayload.toString());
     super.initState();
   }
 
@@ -146,8 +146,12 @@ class _OTPForm extends State<OTPForm> {
                           await notifier.submitOTP(
                               "${one.text}${two.text}${three.text}${four.text}${five.text}${six.text}");
                           if (notifier.apiResponseModel.status) {
-                            MaterialPageRoute(
-                              builder: (context) => SetPasswordScreen(),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    SetPasswordScreen(widget.bvnPayload),
+                              ),
                             );
                           }
                         },

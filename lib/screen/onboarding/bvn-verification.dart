@@ -64,7 +64,7 @@ class _BVNForm extends State<BVNForm> {
           decoration: InputDecoration(hintText: "Enter your BVN"),
         ),
         // Builder(builder: (context) {
-        ErrorText(errorMessage),
+        Center(child: ErrorText(errorMessage)),
         AppButton(
           text: "Verify",
           marginTop: 0,
