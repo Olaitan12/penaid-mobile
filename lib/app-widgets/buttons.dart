@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 
 class AppButton extends StatelessWidget {
-  AppButton(
-      {Key key,
-      this.text,
-      this.width,
-      this.height,
-      this.onPressed,
-      this.marginBottom,
-      this.marginTop});
+  AppButton({
+    Key key,
+    @required this.text,
+    @required this.onPressed,
+    this.width,
+    this.height,
+    this.marginBottom,
+    this.marginTop,
+    this.color,
+  });
   final String text;
   final Function onPressed;
+  final Color color;
   final double width;
   final double height;
   final double marginTop;
@@ -24,7 +27,7 @@ class AppButton extends StatelessWidget {
       child: RaisedButton(
         onPressed: onPressed,
         child: Text(text),
-        color: Theme.of(context).primaryColor,
+        color: color ?? Theme.of(context).primaryColor,
       ),
     );
   }

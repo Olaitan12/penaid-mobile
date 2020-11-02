@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:penaid/app-widgets/buttons.dart';
-import 'package:penaid/app-widgets/error-text.dart';
+import 'package:penaid/app-widgets/color-text.dart';
 import 'package:penaid/models/api.dart';
+import 'package:penaid/models/message-text.dart';
 import 'package:penaid/notifiers/dashboard.dart';
+import 'package:penaid/notifiers/reset-password.dart';
 import 'package:penaid/screen/dashboard.dart';
+import 'package:penaid/screen/reset-password.dart';
 import 'package:penaid/services/api.dart';
 import 'package:provider/provider.dart';
 
@@ -17,14 +20,8 @@ class _LoginForm extends State<LoginForm> {
   GlobalKey<FormState> _loginKey = GlobalKey<FormState>();
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  String _errorMessage = " ";
+  NotificationModel _notifyUser = NotificationModel(null, null);
   API _api = GetIt.I<API>();
-
-  @override
-  void initState() {
-    _errorMessage = "";
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,17 +95,36 @@ class _LoginForm extends State<LoginForm> {
                                       prefixIcon: Icon(Icons.lock)),
                                   controller: _passwordController,
                                 ),
-                                ErrorText(_errorMessage),
+                                ColorText(_notifyUser),
                                 Container(
                                   margin: EdgeInsets.only(top: 10),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(Icons.refresh),
-                                      Container(child: Text(" Reset password")),
-                                    ],
+                                  child: Container(
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Icon(Icons.refresh),
+                                        GestureDetector(
+                                          child: Text("Reset password"),
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ChangeNotifierProvider<
+                                                          ResetPasswordNotifier>(
+                                                    create: (context) =>
+                                                        ResetPasswordNotifier(),
+                                                    child:
+                                                        ResetPasswordScreen(),
+                                                  ),
+                                                ));
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ]),
@@ -143,14 +159,12 @@ class _LoginForm extends State<LoginForm> {
                                   ),
                                 );
                               } else {
-                                setState(() {
-                                  _errorMessage = response.message;
-                                });
+                                _updateUser(
+                                    NotificationModel(response.message, null));
                               }
                             } else {
-                              setState(() {
-                                _errorMessage = response.message;
-                              });
+                              _updateUser(
+                                  NotificationModel(response.message, null));
                             }
                           },
                         ),
@@ -162,5 +176,11 @@ class _LoginForm extends State<LoginForm> {
         ],
       ),
     );
+  }
+
+  void _updateUser(NotificationModel notice) {
+    setState(() {
+      _notifyUser = notice;
+    });
   }
 }

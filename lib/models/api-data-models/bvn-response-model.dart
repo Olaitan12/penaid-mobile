@@ -32,7 +32,7 @@ class BVNPayload {
       json["last_name"] as String,
       json["first_name"] as String,
       json["mobile"] as String,
-      json["dob"] as String,
+      json["formatted_dob"] as String,
       json["smsToken"] as String,
       json["otpId"] as int,
       json["mobile_app_user"] as bool ?? false,

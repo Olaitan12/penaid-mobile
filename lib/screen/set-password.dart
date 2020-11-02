@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:penaid/app-widgets/buttons.dart';
-import 'package:penaid/app-widgets/error-text.dart';
+import 'package:penaid/app-widgets/color-text.dart';
 import 'package:penaid/models/api-data-models/bvn-response-model.dart';
+import 'package:penaid/models/message-text.dart';
 import 'package:penaid/screen/login-signup.dart';
+import 'package:penaid/app-widgets/pop-up.dart';
 import 'package:penaid/services/api.dart';
 
 class SetPasswordScreen extends StatefulWidget {
@@ -15,7 +17,7 @@ class SetPasswordScreen extends StatefulWidget {
 class _SetPasswordScreen extends State<SetPasswordScreen> {
   TextEditingController _password = TextEditingController();
   TextEditingController _confirmPassword = TextEditingController();
-  String _errorMessage;
+  NotificationModel _notificeModel = NotificationModel("", null);
   API _api = GetIt.I<API>();
   // BVNPayload _bvnPayload = widget.bvnPayload;
   initState() {
@@ -60,7 +62,7 @@ class _SetPasswordScreen extends State<SetPasswordScreen> {
                 decoration: InputDecoration(hintText: "Confirm password"),
               ),
               // Builder(builder: (context) {
-              ErrorText(_errorMessage ?? ""),
+              ColorText(_notificeModel),
               AppButton(
                 text: "Set Password",
                 marginTop: 0,
@@ -77,21 +79,21 @@ class _SetPasswordScreen extends State<SetPasswordScreen> {
 
   void _passwordCombination() {
     if (_password.text != null && _password.text.length < 4) {
-      _updateErrorMessage("Password length too short");
+      _nofityUser(NotificationModel("Password length too short", null));
     } else if (_confirmPassword.text == null ||
         _password.text == null ||
         _password.text != _confirmPassword.text) {
-      _updateErrorMessage("Password combination incorrect");
+      _nofityUser(NotificationModel("Password combination incorrect", null));
     } else if (_confirmPassword.text == _password.text &&
         _password.text != "" &&
         _password.text != null) {
-      _updateErrorMessage("");
+      _nofityUser(NotificationModel("", null));
     }
   }
 
-  void _updateErrorMessage(String message) {
+  void _nofityUser(NotificationModel model) {
     setState(() {
-      _errorMessage = message;
+      _notificeModel = model;
     });
   }
 
@@ -102,10 +104,32 @@ class _SetPasswordScreen extends State<SetPasswordScreen> {
     var response = await _api.postRequest("user/register/appUser", payload);
     if (response.status) {
       debugPrint(response.data.toString());
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginSignup()));
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => LoginSignup()));
+      showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (BuildContext context) => PopUpScreen(
+          screenMessage:
+              "Password update successful.\nYou can procced to login.",
+          icon: Icon(
+            Icons.check_circle,
+            color: Colors.green,
+            size: 100,
+          ),
+          actionButton: AppButton(
+            text: "Proceed to login",
+            color: Colors.green,
+            width: MediaQuery.of(context).size.width / 2,
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginSignup()));
+            },
+          ),
+        ),
+      );
     } else {
-      _updateErrorMessage(response.message);
+      _nofityUser(NotificationModel(response.message, null));
     }
   }
 
@@ -115,7 +139,7 @@ class _SetPasswordScreen extends State<SetPasswordScreen> {
       "surname": payload.surname,
       "firstname": payload.firstname,
       "date_of_birth": payload.dateOfBirth,
-      "phone_number": payload.phoneNumber,
+      "phone": payload.phoneNumber,
     };
   }
 }
