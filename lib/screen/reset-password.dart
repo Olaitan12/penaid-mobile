@@ -4,7 +4,11 @@ import 'package:penaid/app-widgets/buttons.dart';
 import 'package:penaid/app-widgets/color-text.dart';
 import 'package:penaid/models/api.dart';
 import 'package:penaid/models/message-text.dart';
+import 'package:penaid/notifiers/confirm-otp.dart';
+import 'package:penaid/screen/onboarding/confirm-otp.dart';
+import 'package:penaid/models/api-data-models/password-reset.dart';
 import 'package:penaid/services/api.dart';
+import 'package:provider/provider.dart';
 
 class _ResetPasswordScreen extends State<ResetPasswordScreen> {
   TextEditingController _bvn = TextEditingController();
@@ -55,7 +59,19 @@ class _ResetPasswordScreen extends State<ResetPasswordScreen> {
         debugPrint(response.message);
         debugPrint(response.data.toString());
         if (response.status) {
-          _notifyUser(NotificationModel(response.message, null));
+          _notifyUser(NotificationModel(response.message, Colors.green));
+          var payload = ResetPasswordPayload.fromJson(response.data);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChangeNotifierProvider<OTPNotifier>(
+                create: (context) => OTPNotifier(),
+                child: OTPForm(
+                  resetPasswordPayload: payload,
+                ),
+              ),
+            ),
+          );
         } else {
           _notifyUser(NotificationModel(response.message, null));
         }

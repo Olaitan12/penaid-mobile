@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:penaid/app-widgets/buttons.dart';
 import 'package:penaid/constants.dart';
 import 'package:penaid/models/api-data-models/bvn-response-model.dart';
+import 'package:penaid/models/api-data-models/password-reset.dart';
 import 'package:penaid/notifiers/confirm-otp.dart';
 import 'package:penaid/screen/set-password.dart';
 
@@ -9,8 +10,10 @@ import 'package:provider/provider.dart';
 
 class OTPForm extends StatefulWidget {
   final BVNPayload bvnPayload;
+  final ResetPasswordPayload resetPasswordPayload;
   _OTPForm createState() => _OTPForm();
-  OTPForm({this.bvnPayload, Key key}) : super(key: key);
+  OTPForm({this.bvnPayload, this.resetPasswordPayload, Key key})
+      : super(key: key);
 }
 
 class _OTPForm extends State<OTPForm> {
@@ -29,18 +32,20 @@ class _OTPForm extends State<OTPForm> {
   TextEditingController six = TextEditingController();
   var notifyListner;
   initState() {
-    // debugPrint(widget.bvnPayload.toString());
+    // debugPrint(widget.payload.toString());
     super.initState();
   }
 
   void initListner(BuildContext context) {
     var notifier = Provider.of<OTPNotifier>(context);
-    if (widget.bvnPayload == null) {
-      notifier.setErrorMessage("No SMS token found");
-    } else if (widget.bvnPayload is BVNPayload) {
+    if (widget.bvnPayload == null && widget.resetPasswordPayload == null) {
+      notifier.setErrorMessage("No payload found!");
+    } else if (widget.bvnPayload != null) {
       notifier.setBVNPayload(widget.bvnPayload);
       // notifier.
-    } else {}
+    } else if (widget.resetPasswordPayload != null) {
+      notifier.setResetPasswordPayload(widget.resetPasswordPayload);
+    }
   }
 
   Widget build(BuildContext context) {
@@ -149,8 +154,11 @@ class _OTPForm extends State<OTPForm> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    SetPasswordScreen(widget.bvnPayload),
+                                builder: (context) => SetPasswordScreen(
+                                  resetPasswordPayload:
+                                      widget.resetPasswordPayload,
+                                  bvnPayload: widget.bvnPayload,
+                                ),
                               ),
                             );
                           }

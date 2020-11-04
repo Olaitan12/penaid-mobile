@@ -6,23 +6,34 @@ import 'package:penaid/models/api-data-models/bvn-response-model.dart';
 import 'package:penaid/models/message-text.dart';
 import 'package:penaid/screen/login-signup.dart';
 import 'package:penaid/app-widgets/pop-up.dart';
+import 'package:penaid/models/api-data-models/password-reset.dart';
 import 'package:penaid/services/api.dart';
 
 class SetPasswordScreen extends StatefulWidget {
   final BVNPayload bvnPayload;
+  final ResetPasswordPayload resetPasswordPayload;
   _SetPasswordScreen createState() => _SetPasswordScreen();
-  SetPasswordScreen(this.bvnPayload);
+  SetPasswordScreen({this.bvnPayload, this.resetPasswordPayload});
 }
 
 class _SetPasswordScreen extends State<SetPasswordScreen> {
   TextEditingController _password = TextEditingController();
   TextEditingController _confirmPassword = TextEditingController();
   NotificationModel _notificeModel = NotificationModel("", null);
+  String _submitButtonText;
+  String _url;
   API _api = GetIt.I<API>();
   // BVNPayload _bvnPayload = widget.bvnPayload;
   initState() {
     debugPrint(widget.bvnPayload.toString());
     super.initState();
+    if (widget.bvnPayload != null) {
+      _submitButtonText = "Set password";
+      _url = "user/register/appUser";
+    } else if (widget.resetPasswordPayload != null) {
+      _submitButtonText = "Update password";
+      _url = "user/resetPassword";
+    }
   }
 
   Widget build(BuildContext context) {
@@ -39,6 +50,15 @@ class _SetPasswordScreen extends State<SetPasswordScreen> {
           child: ListView(
             shrinkWrap: true,
             children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 150,
+                child: ImageIcon(
+                  AssetImage("assets/icons/password.png"),
+                  color: Theme.of(context).primaryColor,
+                  size: 100,
+                ),
+              ),
               Center(
                 child: Text(
                   "Set Password",
@@ -64,10 +84,14 @@ class _SetPasswordScreen extends State<SetPasswordScreen> {
               // Builder(builder: (context) {
               ColorText(_notificeModel),
               AppButton(
-                text: "Set Password",
+                text: _submitButtonText,
                 marginTop: 0,
                 onPressed: () async {
-                  await _sendSetPasswordRequest();
+                  if (widget.bvnPayload != null) {
+                    await _sendSetPasswordRequest();
+                  } else if (widget.resetPasswordPayload != null) {
+                    await _resetPassword();
+                  } else {}
                 },
               )
             ],
@@ -97,11 +121,15 @@ class _SetPasswordScreen extends State<SetPasswordScreen> {
     });
   }
 
+  Future<void> _resetPassword() {
+    debugPrint("Reset request sent");
+  }
+
   Future<void> _sendSetPasswordRequest() async {
     Map<String, dynamic> payload = bvnPayloadObjectToMap(widget.bvnPayload);
     payload["password"] = _password.text;
     debugPrint(payload.toString());
-    var response = await _api.postRequest("user/register/appUser", payload);
+    var response = await _api.postRequest(_url, payload);
     if (response.status) {
       debugPrint(response.data.toString());
       // Navigator.push(
