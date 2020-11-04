@@ -3,6 +3,7 @@ import 'package:penaid/app-widgets/buttons.dart';
 import 'package:penaid/constants.dart';
 import 'package:penaid/models/api-data-models/bvn-response-model.dart';
 import 'package:penaid/models/api-data-models/password-reset.dart';
+import 'package:penaid/models/api.dart';
 import 'package:penaid/notifiers/confirm-otp.dart';
 import 'package:penaid/screen/set-password.dart';
 
@@ -45,6 +46,8 @@ class _OTPForm extends State<OTPForm> {
       // notifier.
     } else if (widget.resetPasswordPayload != null) {
       notifier.setResetPasswordPayload(widget.resetPasswordPayload);
+      notifier.apiResponseModel =
+          APIResponseModel(true, widget.resetPasswordPayload.message, null);
     }
   }
 

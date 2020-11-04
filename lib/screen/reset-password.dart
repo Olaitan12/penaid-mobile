@@ -56,11 +56,13 @@ class _ResetPasswordScreen extends State<ResetPasswordScreen> {
     if (_validateBvn(_bvn.text)) {
       var response = await _verifyPhoneNumber();
       if (response is APIResponseModel) {
-        debugPrint(response.message);
+        // debugPrint(response.message);
         debugPrint(response.data.toString());
+        debugPrint("response.data.toString()");
         if (response.status) {
           _notifyUser(NotificationModel(response.message, Colors.green));
           var payload = ResetPasswordPayload.fromJson(response.data);
+
           Navigator.push(
             context,
             MaterialPageRoute(

@@ -52,19 +52,27 @@ class _BVNForm extends State<BVNForm> {
       // mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-            // margin: EdgeInsets.only(top: 100),
-            child: Icon(
-          Icons.person,
-          size: 100,
-          color: Theme.of(context).primaryColor,
-        )),
+          child: ImageIcon(
+            AssetImage("assets/icons/bvn.png"),
+            size: 120,
+            color: Theme.of(context).primaryColor,
+          ),
+          // margin: EdgeInsets.only(top: 100),
+          // child: Icon(
+          // Icons.person,
+          // size: 100,
+          // color: Theme.of(context).primaryColor,
+        ),
         Text(
           "Bank Verification Number",
           style: Theme.of(context).textTheme.headline3,
         ),
         TextFormField(
           controller: _bvn,
-          decoration: InputDecoration(hintText: "Enter your BVN"),
+          decoration: InputDecoration(
+            hintText: "Enter your BVN",
+          ),
+          textAlign: TextAlign.center,
         ),
         // Builder(builder: (context) {
         Center(child: ColorText(_notify)),

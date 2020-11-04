@@ -95,7 +95,7 @@ class API {
 
       _api = await _apiResources();
       http.Response response = await http
-          .post("${_api.baseUrl}/$path", headers: _api.headers, body: body)
+          .put("${_api.baseUrl}/$path", headers: _api.headers, body: body)
           .timeout(
         Duration(seconds: 15),
         onTimeout: () {

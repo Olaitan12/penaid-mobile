@@ -9,6 +9,12 @@ import 'package:penaid/app-widgets/pop-up.dart';
 import 'package:penaid/models/api-data-models/password-reset.dart';
 import 'package:penaid/services/api.dart';
 
+/**
+ * This screen represents two flows
+ * Reset password ==> ResetpasswordPayload is not null
+ * and
+ * Onboarding ==> BVNPayload is not null
+ */
 class SetPasswordScreen extends StatefulWidget {
   final BVNPayload bvnPayload;
   final ResetPasswordPayload resetPasswordPayload;
@@ -121,8 +127,19 @@ class _SetPasswordScreen extends State<SetPasswordScreen> {
     });
   }
 
-  Future<void> _resetPassword() {
+  Future<void> _resetPassword() async {
     debugPrint("Reset request sent");
+    Map<String, String> payload = {
+      "userId": widget.resetPasswordPayload.userId,
+      "password": _password.text
+    };
+    var response = await _api.putRequest(_url, payload);
+    if (response.status) {
+      debugPrint(response.data.toString());
+      _dispayDialog(context);
+    } else {
+      _nofityUser(NotificationModel(response.message, null));
+    }
   }
 
   Future<void> _sendSetPasswordRequest() async {
@@ -134,31 +151,34 @@ class _SetPasswordScreen extends State<SetPasswordScreen> {
       debugPrint(response.data.toString());
       // Navigator.push(
       //     context, MaterialPageRoute(builder: (context) => LoginSignup()));
-      showDialog(
-        barrierDismissible: true,
-        context: context,
-        builder: (BuildContext context) => PopUpScreen(
-          screenMessage:
-              "Password update successful.\nYou can procced to login.",
-          icon: Icon(
-            Icons.check_circle,
-            color: Colors.green,
-            size: 100,
-          ),
-          actionButton: AppButton(
-            text: "Proceed to login",
-            color: Colors.green,
-            width: MediaQuery.of(context).size.width / 2,
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginSignup()));
-            },
-          ),
-        ),
-      );
+      _dispayDialog(context);
     } else {
       _nofityUser(NotificationModel(response.message, null));
     }
+  }
+
+  _dispayDialog(BuildContext context) {
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) => PopUpScreen(
+        screenMessage: "Password update successful.\nYou can procced to login.",
+        icon: Icon(
+          Icons.check_circle,
+          color: Colors.green,
+          size: 100,
+        ),
+        actionButton: AppButton(
+          text: "Proceed to login",
+          color: Colors.green,
+          width: MediaQuery.of(context).size.width / 2,
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => LoginSignup()));
+          },
+        ),
+      ),
+    );
   }
 
   Map<String, dynamic> bvnPayloadObjectToMap(BVNPayload payload) {
