@@ -65,7 +65,6 @@ class API {
 
   updateHeaderWithToken(String token) {
     this._headers["Authorization"] = "Bearer $token";
-    // print(this._headers);
   }
 
   Future<APIResponseModel> getRequest(String path) async {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DashboardScreenNotifier extends ChangeNotifier {
+class PageViewNotifier extends ChangeNotifier {
   int activeIndex = 0;
   String currentTitle = "Dashboard";
 

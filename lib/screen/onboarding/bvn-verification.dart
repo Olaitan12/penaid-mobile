@@ -29,7 +29,7 @@ class _OnboardingStepOneScreen extends State<OnboardingStepOneScreen> {
         children: <Widget>[
           OnboardProgress("progress-step-one.png"),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: SCREEN_PADDING),
+            padding: SCREEN_SPACE,
             height: MediaQuery.of(context).size.height,
             child: BVNForm(),
           ),

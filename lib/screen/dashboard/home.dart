@@ -55,4 +55,6 @@ class _DashboardHomeView extends State<DashboardHomeView> {
       ),
     );
   }
+
+  getUserDetails() {}
 }

@@ -4,7 +4,7 @@ import 'package:penaid/app-widgets/buttons.dart';
 import 'package:penaid/app-widgets/color-text.dart';
 import 'package:penaid/models/api.dart';
 import 'package:penaid/models/message-text.dart';
-import 'package:penaid/notifiers/dashboard.dart';
+import 'package:penaid/notifiers/page-view.dart';
 import 'package:penaid/notifiers/reset-password.dart';
 import 'package:penaid/screen/dashboard.dart';
 import 'package:penaid/screen/reset-password.dart';
@@ -151,9 +151,8 @@ class _LoginForm extends State<LoginForm> {
                                   MaterialPageRoute(
                                     builder: (context) =>
                                         ChangeNotifierProvider<
-                                            DashboardScreenNotifier>(
-                                      create: (context) =>
-                                          DashboardScreenNotifier(),
+                                            PageViewNotifier>(
+                                      create: (context) => PageViewNotifier(),
                                       child: DashboardScreen(),
                                     ),
                                   ),

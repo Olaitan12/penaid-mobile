@@ -40,18 +40,18 @@ class OTPNotifier extends ChangeNotifier {
     String otp,
   ) async {
     var payload;
-    if (otp != null && otp.length != 6) {
+    if (otp.isEmpty || otp.length != 6) {
       apiResponseModel = APIResponseModel(false, "Invalid operation", null);
     } else {
-      debugPrint(otp);
+      // debugPrint(otp);
       if (bvnPayload != null) {
         payload = {"otpId": bvnPayload.otpId, "otp": otp};
         debugPrint(bvnPayload.otpId.toString());
-        debugPrint("bvnPayload");
+        // debugPrint("bvnPayload");
       } else if (_resetPasswordPayload != null) {
         payload = {"otpId": resetPasswordPayload.otpId, "otp": otp};
         debugPrint(resetPasswordPayload.otpId.toString());
-        debugPrint("resetPasswordPayload");
+        // debugPrint("resetPasswordPayload");
       }
       debugPrint(payload.toString());
       apiResponseModel = await _api.postRequest("verify/otp", payload);

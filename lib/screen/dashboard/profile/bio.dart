@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:penaid/app-widgets/buttons.dart';
+import 'package:penaid/constants.dart';
 // import 'package:flutter/services.dart' show rootBundle;
 
-class PersonalInfoForm extends StatefulWidget {
-  PersonalInfoForm();
-  _PersonalInfoForm createState() => _PersonalInfoForm();
+class BioDataScreen extends StatefulWidget {
+  BioDataScreen();
+  _BioDataScreen createState() => _BioDataScreen();
 }
 
-class _PersonalInfoForm extends State<PersonalInfoForm> {
+class _BioDataScreen extends State<BioDataScreen> {
   String _gender;
+  TextEditingController othername,
+      email,
+      address,
+      state,
+      nationalID = TextEditingController();
   initState() {
     super.initState();
     setState(() {
@@ -18,6 +25,7 @@ class _PersonalInfoForm extends State<PersonalInfoForm> {
 
   Widget build(BuildContext context) {
     return Container(
+      padding: SCREEN_SPACE,
       child: ListView(
         children: <Widget>[
           // Row(children: [
@@ -26,17 +34,17 @@ class _PersonalInfoForm extends State<PersonalInfoForm> {
             size: 100,
             color: Theme.of(context).primaryColor,
           ),
-          Center(
-            child: Text("Personal Bio",
-                style: Theme.of(context).textTheme.headline2),
-          ),
-          // ]),
+          // Center(
+          //   child: Text("Personal Bio",
+          //       style: Theme.of(context).textTheme.headline2),
+          // ),
+          // ])\
           TextFormField(
-            controller: null,
+            controller: othername,
             decoration: InputDecoration(hintText: "Enter middle name"),
           ),
           TextFormField(
-            controller: null,
+            controller: email,
             decoration: InputDecoration(hintText: "Enter email address"),
           ),
           DropdownButton(
@@ -73,7 +81,8 @@ class _PersonalInfoForm extends State<PersonalInfoForm> {
                     })
               ],
             ),
-          ])
+          ]),
+          AppButton(text: "Next", onPressed: () {})
         ],
       ),
     );

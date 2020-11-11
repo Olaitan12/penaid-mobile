@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:penaid/notifiers/dashboard.dart';
+import 'package:penaid/notifiers/page-view.dart';
 import 'package:penaid/screen/dashboard/calculator.dart';
 import 'package:penaid/screen/dashboard/card-view.dart';
 import 'package:penaid/screen/dashboard/home.dart';
+import 'package:penaid/screen/dashboard/account.dart';
 import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -18,17 +19,28 @@ class _DashboardScreen extends State<DashboardScreen> {
     DashboardScreenModel(1, "Card Manager", CardManager(), Icons.credit_card),
     DashboardScreenModel(2, "Loan History", CalculatorView(), Icons.history),
     DashboardScreenModel(
-        3, "Profile settings", CalculatorView(), Icons.settings),
+        3, "Profile settings", ProfileScreen(), Icons.person_pin),
   ];
-  DashboardScreenNotifier _notifier;
+  PageViewNotifier _notifier;
   Widget build(BuildContext context) {
-    _notifier = Provider.of<DashboardScreenNotifier>(context, listen: false);
+    _notifier = Provider.of<PageViewNotifier>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: Theme.of(context).primaryColor,
+        actions: [
+          InkWell(
+            onTap: () => Navigator.pop(context),
+            child: Icon(
+              Icons.exit_to_app,
+              color: Colors.red,
+            ),
+          )
+        ],
         automaticallyImplyLeading: false,
-        title: Consumer<DashboardScreenNotifier>(
-            builder: (context, data, child) => Text(data.currentTitle)),
+        title: Consumer<PageViewNotifier>(
+          builder: (context, data, child) => Text(data.currentTitle),
+        ),
       ),
       body: PageView(
         scrollDirection: Axis.horizontal,
@@ -44,7 +56,7 @@ class _DashboardScreen extends State<DashboardScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: []..addAll(pages.map(
-                (e) => Consumer<DashboardScreenNotifier>(
+                (e) => Consumer<PageViewNotifier>(
                   builder: (context, data, child) => IconButton(
                     color: e.index == data.activeIndex
                         ? Theme.of(context).primaryColor

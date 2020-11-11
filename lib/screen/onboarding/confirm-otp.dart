@@ -59,7 +59,7 @@ class _OTPForm extends State<OTPForm> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Container(
-          padding: EdgeInsets.symmetric(horizontal: SCREEN_PADDING),
+          padding: SCREEN_SPACE,
           child: Center(
               child: ListView(
             shrinkWrap: true,
