@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:penaid/models/jwt.dart';
+
 class JWTDecoder {
-  Map<String, dynamic> parseJWT(String token) {
+  JWTModel parseJWT(String token) {
     final parts = token.split('.');
     if (parts.length != 3) {
       throw Exception('invalid token');
@@ -13,7 +15,7 @@ class JWTDecoder {
       throw Exception('invalid payload');
     }
 
-    return payloadMap;
+    return JWTModel.fromJson(payloadMap);
   }
 
   String _decodeBase64(String str) {

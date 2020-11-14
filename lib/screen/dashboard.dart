@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:penaid/models/jwt.dart';
 import 'package:penaid/notifiers/page-view.dart';
 import 'package:penaid/screen/dashboard/calculator.dart';
 import 'package:penaid/screen/dashboard/card-view.dart';
@@ -7,22 +8,29 @@ import 'package:penaid/screen/dashboard/account.dart';
 import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatefulWidget {
+  final JWTModel user;
+
   _DashboardScreen createState() => _DashboardScreen();
+
+  DashboardScreen(this.user);
 }
 
 class _DashboardScreen extends State<DashboardScreen> {
   PageController _pageController =
       PageController(viewportFraction: 1, initialPage: 0);
 
-  final List<DashboardScreenModel> pages = [
-    DashboardScreenModel(0, "Dashboard", DashboardHomeView(), Icons.home),
-    DashboardScreenModel(1, "Card Manager", CardManager(), Icons.credit_card),
-    DashboardScreenModel(2, "Loan History", CalculatorView(), Icons.history),
-    DashboardScreenModel(
-        3, "Profile settings", ProfileScreen(), Icons.person_pin),
-  ];
+  List<DashboardScreenModel> pages;
+
   PageViewNotifier _notifier;
   Widget build(BuildContext context) {
+    pages = [
+      DashboardScreenModel(
+          0, "Dashboard", DashboardHomeView(widget.user), Icons.home),
+      DashboardScreenModel(1, "Card Manager", CardManager(), Icons.credit_card),
+      DashboardScreenModel(2, "Loan History", CalculatorView(), Icons.history),
+      DashboardScreenModel(
+          3, "Profile settings", ProfileScreen(), Icons.person_pin),
+    ];
     _notifier = Provider.of<PageViewNotifier>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
@@ -55,19 +63,21 @@ class _DashboardScreen extends State<DashboardScreen> {
           width: MediaQuery.of(context).size.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: []..addAll(pages.map(
-                (e) => Consumer<PageViewNotifier>(
-                  builder: (context, data, child) => IconButton(
-                    color: e.index == data.activeIndex
-                        ? Theme.of(context).primaryColor
-                        : null,
-                    icon: Icon(e.icons),
-                    onPressed: () {
-                      _changePage(e.index, e.title);
-                    },
+            children: []..addAll(
+                pages.map(
+                  (e) => Consumer<PageViewNotifier>(
+                    builder: (context, data, child) => IconButton(
+                      color: e.index == data.activeIndex
+                          ? Theme.of(context).primaryColor
+                          : null,
+                      icon: Icon(e.icon),
+                      onPressed: () {
+                        _changePage(e.index, e.title);
+                      },
+                    ),
                   ),
                 ),
-              )),
+              ),
           ),
         ),
       ],
@@ -91,13 +101,13 @@ class _DashboardScreen extends State<DashboardScreen> {
 
 class DashboardScreenModel {
   final Widget screen;
-  final IconData icons;
+  final IconData icon;
   final String title;
   final int index;
   DashboardScreenModel(
     this.index,
     this.title,
     this.screen,
-    this.icons,
+    this.icon,
   );
 }

@@ -9,6 +9,7 @@ import 'package:penaid/notifiers/reset-password.dart';
 import 'package:penaid/screen/dashboard.dart';
 import 'package:penaid/screen/reset-password.dart';
 import 'package:penaid/services/api.dart';
+import 'package:penaid/services/jwt.dart';
 import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
@@ -145,6 +146,11 @@ class _LoginForm extends State<LoginForm> {
                               if (response.status) {
                                 _api.updateHeaderWithToken(
                                     response.data["token"]);
+                                _updateUser(NotificationModel(null, null));
+                                JWTDecoder jwt = JWTDecoder();
+                                debugPrint(jwt
+                                    .parseJWT(response.data["token"])
+                                    .toString());
                                 // print(response.data["token"]);
                                 Navigator.push(
                                   context,
@@ -153,7 +159,8 @@ class _LoginForm extends State<LoginForm> {
                                         ChangeNotifierProvider<
                                             PageViewNotifier>(
                                       create: (context) => PageViewNotifier(),
-                                      child: DashboardScreen(),
+                                      child: DashboardScreen(
+                                          jwt.parseJWT(response.data["token"])),
                                     ),
                                   ),
                                 );

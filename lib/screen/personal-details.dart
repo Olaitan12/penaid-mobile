@@ -9,8 +9,7 @@ class PersonalInformation extends StatefulWidget {
 }
 
 class _PersonalInformation extends State<PersonalInformation> {
-  PageController pageController =
-      PageController(viewportFraction: 1, initialPage: 0);
+  PageController pageController;
   final List<DashboardScreenModel> pages = [
     DashboardScreenModel(
         0, "Personal Information", BioDataScreen(), Icons.home),
@@ -20,6 +19,7 @@ class _PersonalInformation extends State<PersonalInformation> {
   Widget build(BuildContext personalInformationContext) {
     _notifier = Provider.of<PageViewNotifier>(personalInformationContext,
         listen: false);
+    pageController = _notifier.pageController;
     return Scaffold(
       appBar: AppBar(
         title: Text(pages[_notifier.activeIndex].title),
