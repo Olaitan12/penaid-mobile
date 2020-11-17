@@ -47,6 +47,7 @@ class BVNForm extends StatefulWidget {
 class _BVNForm extends State<BVNForm> {
   NotificationModel _notify = NotificationModel(null, null);
   TextEditingController _bvn = TextEditingController();
+  String userRole;
   Widget build(BuildContext context) {
     return Column(
       // mainAxisAlignment: MainAxisAlignment.center,
@@ -73,6 +74,37 @@ class _BVNForm extends State<BVNForm> {
             hintText: "Enter your BVN",
           ),
           textAlign: TextAlign.center,
+        ),
+        Text(
+          "Sign up as:",
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        Container(
+          child: Row(
+            children: [
+              Container(
+                child: Row(
+                  children: [
+                    Text("Borrower"),
+                    Radio(
+                        value: "customer",
+                        groupValue: userRole,
+                        onChanged: null)
+                    // RadioListTile(value: null, groupValue: null, onChanged: null)
+                  ],
+                ),
+              ),
+              Container(
+                child: Row(
+                  children: [
+                    Text("Agent"),
+                    Radio(value: "agent", groupValue: userRole, onChanged: null)
+                    // RadioListTile(value: null, groupValue: null, onChanged: null)
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
         // Builder(builder: (context) {
         Center(child: ColorText(_notify)),

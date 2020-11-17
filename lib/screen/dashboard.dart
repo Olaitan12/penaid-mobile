@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:penaid/constants.dart';
 import 'package:penaid/models/jwt.dart';
 import 'package:penaid/notifiers/page-view.dart';
 import 'package:penaid/screen/dashboard/calculator.dart';
@@ -24,8 +25,7 @@ class _DashboardScreen extends State<DashboardScreen> {
   PageViewNotifier _notifier;
   Widget build(BuildContext context) {
     pages = [
-      DashboardScreenModel(
-          0, "Dashboard", DashboardHomeView(widget.user), Icons.home),
+      DashboardScreenModel(0, "Dashboard", DashboardHomeView(), Icons.home),
       DashboardScreenModel(1, "Card Manager", CardManager(), Icons.credit_card),
       DashboardScreenModel(2, "Loan History", CalculatorView(), Icons.history),
       DashboardScreenModel(
@@ -34,14 +34,18 @@ class _DashboardScreen extends State<DashboardScreen> {
     _notifier = Provider.of<PageViewNotifier>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
-          InkWell(
-            onTap: () => Navigator.pop(context),
-            child: Icon(
-              Icons.exit_to_app,
-              color: Colors.red,
+          Tooltip(
+            message: "Sign out",
+            child: InkWell(
+              onTap: () => Navigator.pop(context),
+              child: Icon(
+                Icons.exit_to_app,
+                color: Colors.red,
+              ),
             ),
           )
         ],
@@ -50,13 +54,15 @@ class _DashboardScreen extends State<DashboardScreen> {
           builder: (context, data, child) => Text(data.currentTitle),
         ),
       ),
-      body: PageView(
-        scrollDirection: Axis.horizontal,
-        pageSnapping: false,
-        onPageChanged: _changePage,
-        controller: _pageController,
-        children: []..addAll(pages.map((page) => page.screen).toList()),
-      ),
+      body: Container(
+          color: BACKGROUND_COLOR,
+          child: PageView(
+            scrollDirection: Axis.horizontal,
+            pageSnapping: false,
+            onPageChanged: _changePage,
+            controller: _pageController,
+            children: []..addAll(pages.map((page) => page.screen).toList()),
+          )),
       persistentFooterButtons: <Widget>[
         Container(
           height: 30,

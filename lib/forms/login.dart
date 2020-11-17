@@ -9,6 +9,7 @@ import 'package:penaid/notifiers/reset-password.dart';
 import 'package:penaid/screen/dashboard.dart';
 import 'package:penaid/screen/reset-password.dart';
 import 'package:penaid/services/api.dart';
+import 'package:penaid/services/data.dart';
 import 'package:penaid/services/jwt.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,7 @@ class _LoginForm extends State<LoginForm> {
   TextEditingController _passwordController = TextEditingController();
   NotificationModel _notifyUser = NotificationModel(null, null);
   API _api = GetIt.I<API>();
+  AppUserData _data = GetIt.I<AppUserData>();
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +87,7 @@ class _LoginForm extends State<LoginForm> {
                               children: <Widget>[
                                 TextField(
                                   decoration: InputDecoration(
-                                      hintText: "Enter phone number or email",
+                                      hintText: "Enter phone number",
                                       prefixIcon: Icon(Icons.person)),
                                   controller: _usernameController,
                                 ),
@@ -148,10 +150,8 @@ class _LoginForm extends State<LoginForm> {
                                     response.data["token"]);
                                 _updateUser(NotificationModel(null, null));
                                 JWTDecoder jwt = JWTDecoder();
-                                debugPrint(jwt
-                                    .parseJWT(response.data["token"])
-                                    .toString());
-                                // print(response.data["token"]);
+                                _data.setAccessData(
+                                    jwt.parseJWT(response.data["token"]));
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

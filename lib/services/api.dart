@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:penaid/models/api.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:http_parser/http_parser.dart' show MediaType;
 
 class API {
   Map<String, String> _headers = {"Content-Type": "application/json"};
@@ -115,5 +118,39 @@ class API {
     _headers["xx-penaid-access"] = _api["token"];
     APIModel apiModel = APIModel.fromJson(_api, _headers);
     return apiModel;
+  }
+
+  Future<String> uploadImage(
+      String filePath, String userId, String documentName) async {
+    debugPrint(_api.versionOneUrl);
+    var request = http.MultipartRequest('POST',
+        Uri.parse(_api.versionOneUrl + "/file/upload/$userId/$documentName"));
+    request.headers["Authorization"] = _headers["Authorization"];
+    request.files.add(http.MultipartFile('file',
+        File(filePath).readAsBytes().asStream(), File(filePath).lengthSync(),
+        filename: filePath.split("/").last,
+        contentType: _getFileMimeType(filePath)));
+    var res = await request.send();
+
+    return res.statusCode.toString();
+    // debugPrint(res.persistentConnection)
+  }
+
+  MediaType _getFileMimeType(String path) {
+    if (path.endsWith('.jpg')) {
+      return MediaType("image", "jpeg");
+    } else if (path.endsWith('.pdf')) {
+      return MediaType("application", "pdf");
+    } else {
+      throw (Exception("Unsupported file format"));
+    }
+  }
+
+  bool isJpeg(String path) {
+    return path.endsWith('.jpg');
+  }
+
+  bool isPDF(String path) {
+    return path.endsWith('.pdf');
   }
 }

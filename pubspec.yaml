@@ -23,7 +23,6 @@ dependencies:
   cupertino_icons: ^0.1.2
   cached_network_image: ^2.2.0+1
   shared_preferences: ^0.5.7
-  onesignal_flutter: ^2.4.1
   splashscreen: ^1.2.0
   image_picker: ^0.6.6+1
   geolocator: ^5.3.1

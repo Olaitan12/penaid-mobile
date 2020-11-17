@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+// import 'package:get_it/get_it.dart';
 import 'package:penaid/constants.dart';
 import 'package:penaid/models/api-data-models/user.dart';
+// import 'package:penaid/models/api-data-models/user.dart';
 import 'package:penaid/screen/loan-details.dart';
+// import 'package:penaid/services/data.dart';
 
+// ignore: must_be_immutable
 class LoanListTable extends StatelessWidget {
   final List<LoanModel> loanList;
+  // AppUserData _data = GetIt.I<AppUserData>();
+  BuildContext screenContext;
 
   LoanListTable(this.loanList);
   // var f =  NumberFormat("###.0#", "en_US");
   Widget build(BuildContext context) {
+    screenContext = context;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height / 4,
@@ -43,21 +50,30 @@ class LoanListTable extends StatelessWidget {
                         rows: []..addAll(
                             loanList
                                 .map((loan) => DataRow(cells: [
-                                      DataCell(Text(loan.amount.toString()),
-                                          onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    LoanDetailScreen(loan)));
-                                      }),
-                                      DataCell(Text(loan.tenor.toString())),
-                                      DataCell(Text(
-                                        loan.paymentStatus.toUpperCase(),
-                                        style: TextStyle(
-                                            color: colorsMap[loan.paymentStatus
-                                                .toLowerCase()]),
-                                      )),
+                                      DataCell(
+                                        Text(nairaFormat.format(loan.amount)),
+                                        onTap: () {
+                                          _openScreen(loan);
+                                        },
+                                      ),
+                                      DataCell(
+                                        Text(loan.tenor.toString()),
+                                        onTap: () {
+                                          _openScreen(loan);
+                                        },
+                                      ),
+                                      DataCell(
+                                        Text(
+                                          loan.paymentStatus.toUpperCase(),
+                                          style: TextStyle(
+                                              color: colorsMap[loan
+                                                  .paymentStatus
+                                                  .toLowerCase()]),
+                                        ),
+                                        onTap: () {
+                                          _openScreen(loan);
+                                        },
+                                      ),
                                       // DataCell(loan.remita == null
                                       //     ? Text("NONE")
                                       //     : Text(loan.remita.activated
@@ -72,6 +88,11 @@ class LoanListTable extends StatelessWidget {
       ),
       // ),
     );
+  }
+
+  _openScreen(LoanModel loan) {
+    Navigator.push(screenContext,
+        MaterialPageRoute(builder: (context) => LoanDetailScreen(loan)));
   }
 }
 

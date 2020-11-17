@@ -14,19 +14,28 @@ class UserModel {
   final String nationalIdType;
   final String nationalIdNumber;
   final String referrerCode;
+  final RetirementDetails retirement;
+  final EmployerDetails employer;
+  final NextOfKinDetails nextOfKin;
+  final CardDetails card;
   UserModel(
-      this.loans,
-      this.email,
-      this.phoneNumber,
-      this.accountNumber,
-      this.address,
-      this.bankCode,
-      this.dateOfBirth,
-      this.gender,
-      this.nationalIdNumber,
-      this.nationalIdType,
-      this.referrerCode,
-      this.stateOfResisdence);
+    this.loans,
+    this.email,
+    this.phoneNumber,
+    this.accountNumber,
+    this.address,
+    this.bankCode,
+    this.dateOfBirth,
+    this.gender,
+    this.nationalIdNumber,
+    this.nationalIdType,
+    this.referrerCode,
+    this.stateOfResisdence,
+    this.nextOfKin,
+    this.employer,
+    this.retirement,
+    this.card,
+  );
   factory UserModel.fromJson(dynamic json) {
     try {
       return UserModel(
@@ -42,6 +51,10 @@ class UserModel {
         json["national_id_type"] as String ?? "",
         json["referrer_code"] as String ?? "",
         json["state"] as String ?? "",
+        NextOfKinDetails.fromJson(json["next_of_kin"]),
+        EmployerDetails.fromJson(json["employment_history"]),
+        RetirementDetails.fromJson(json["retirement_program"]),
+        CardDetails.fromJson(json["card_authorization"]),
       );
     } catch (e) {
       debugPrint("User Model");
@@ -104,7 +117,6 @@ class LoanModel {
     }
   }
   static List<LoanModel> list(List<dynamic> list) {
-    debugPrint(list.toString());
     return list.map((row) => LoanModel.fromJson(row)).toList();
   }
 }
@@ -173,5 +185,103 @@ class RemitaMandate {
   }
   static List<RemitaMandate> list(List<dynamic> list) {
     return list.map((row) => RemitaMandate.fromJson(row)).toList();
+  }
+}
+
+class RetirementDetails {
+  final int retirementYear;
+  final String pensionPlan;
+  final double monthlyPension;
+  get runtimeType => RetirementDetails;
+
+  RetirementDetails(this.monthlyPension, this.pensionPlan, this.retirementYear);
+
+  factory RetirementDetails.fromJson(dynamic json) {
+    debugPrint(json.toString());
+    return json == null
+        ? null
+        : RetirementDetails(
+            double.parse(json["monthly_payment"].toString()),
+            json["plan"] as String,
+            int.parse(json["year_of_retirement"].toString()));
+  }
+}
+
+class EmployerDetails {
+  final String employerName;
+  final String industry;
+  final int yearsOfService;
+  final String lastJobTitle;
+  final String sector;
+  get runtimeType => EmployerDetails;
+
+  EmployerDetails(
+    this.employerName,
+    this.industry,
+    this.sector,
+    this.lastJobTitle,
+    this.yearsOfService,
+  );
+
+  factory EmployerDetails.fromJson(dynamic json) {
+    debugPrint(json.toString());
+    return json == null
+        ? null
+        : EmployerDetails(
+            json["employer_name"] as String,
+            json["industry"] as String,
+            json["sector"] as String,
+            json["job_title"] as String,
+            json["years_of_service"] as int,
+          );
+  }
+}
+
+class NextOfKinDetails {
+  final String surname;
+  final String firstName;
+  final String phoneNumber;
+  final String address;
+  final String relationship;
+  get runtimeType => NextOfKinDetails;
+
+  NextOfKinDetails(this.surname, this.firstName, this.relationship,
+      this.phoneNumber, this.address);
+
+  factory NextOfKinDetails.fromJson(dynamic json) {
+    debugPrint(json.toString());
+    return json == null
+        ? null
+        : NextOfKinDetails(
+            json["surname"] as String,
+            json["firstname"] as String,
+            json["relationship"] as String,
+            json["phone_number"] as String,
+            json["address"] as String,
+          );
+  }
+}
+
+class CardDetails {
+  final int last4;
+  final String expiryMonth;
+  final String expiryYear;
+  final String bank;
+  final String brand;
+
+  CardDetails(
+      this.last4, this.bank, this.expiryMonth, this.expiryYear, this.brand);
+  get runtimeType => CardDetails;
+  factory CardDetails.fromJson(dynamic json) {
+    debugPrint(json.toString());
+    return json == null
+        ? null
+        : CardDetails(
+            json["last4"] as int,
+            json["bank"].toString(),
+            json["exp_month"].toString(),
+            json["exp_year"].toString(),
+            json["brand"].toString(),
+          );
   }
 }

@@ -6,10 +6,11 @@ class APIError {
 
 class APIModel {
   final String baseUrl;
+  final String versionOneUrl;
   final Map<String, String> headers;
-  APIModel(this.baseUrl, this.headers);
+  APIModel(this.baseUrl, this.headers, this.versionOneUrl);
   factory APIModel.fromJson(dynamic json, Map<String, String> headers) {
-    return APIModel(json["url"] as String, headers);
+    return APIModel(json["url"] as String, headers, json["url1"]);
   }
 }
 

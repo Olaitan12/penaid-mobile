@@ -14,14 +14,18 @@ class _SignupChoiceSheet extends State<SignupChoiceSheet> {
             color: Color.fromRGBO(255, 255, 255, .8),
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-        height: MediaQuery.of(context).size.height / 2,
+        height: MediaQuery.of(context).size.height / 2.5,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
-            "I want to sign up as a ",
-            style: Theme.of(context).textTheme.headline2,
+            "Sign up as",
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+              fontSize: 25,
+            ),
           ),
           AppButton(
-            text: "Pension",
+            text: "a Pensioner",
             onPressed: () {
               Navigator.push(
                 context,
@@ -32,7 +36,7 @@ class _SignupChoiceSheet extends State<SignupChoiceSheet> {
             },
           ),
           AppButton(
-            text: "Agent",
+            text: "an Agent",
             onPressed: () {},
           ),
         ]));

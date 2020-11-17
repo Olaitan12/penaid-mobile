@@ -9,6 +9,7 @@ import 'package:penaid/app-widgets/pop-up.dart';
 import 'package:penaid/models/api-data-models/password-reset.dart';
 import 'package:penaid/services/api.dart';
 
+// ignore: slash_for_doc_comments
 /**
  * This screen represents two flows
  * Reset password ==> ResetpasswordPayload is not null

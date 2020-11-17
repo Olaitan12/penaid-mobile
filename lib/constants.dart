@@ -1,5 +1,7 @@
+import 'dart:convert' show json;
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart'; //for date format
 
 const EdgeInsets SCREEN_SPACE = EdgeInsets.symmetric(horizontal: 15);
@@ -15,3 +17,9 @@ Map<String, MaterialColor> colorsMap = {
   "paid": Colors.green,
   "overdue": Colors.red,
 };
+// Future<String> photoUrl => getPhotoUrl() ;
+Future<String> getPhotoFile() async {
+  String jsonString = await rootBundle.loadString("assets/_secure/api.json");
+  var links = json.decode(jsonString);
+  return links["storage_url"] as String;
+}
