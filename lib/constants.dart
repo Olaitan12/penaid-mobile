@@ -6,7 +6,8 @@ import 'package:intl/intl.dart'; //for date format
 
 const EdgeInsets SCREEN_SPACE = EdgeInsets.symmetric(horizontal: 15);
 const String VERSION = "0.0.1";
-const BACKGROUND_COLOR = Color.fromRGBO(234, 230, 225, 1);
+// ignore: non_constant_identifier_names
+final BACKGROUND_COLOR = Colors.grey[10];
 const NAIRA = "₦";
 var numberFormat = new NumberFormat.currency(locale: "en_US", symbol: "");
 var nairaFormat = new NumberFormat.currency(locale: "en_US", symbol: NAIRA);

@@ -35,7 +35,7 @@ class _DashboardScreen extends State<DashboardScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        centerTitle: true,
+        // centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
           Tooltip(

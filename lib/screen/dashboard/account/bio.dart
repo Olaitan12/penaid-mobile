@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:penaid/app-widgets/buttons.dart';
+import 'package:penaid/app-widgets/form-card.dart';
 import 'package:penaid/constants.dart';
 // import 'package:flutter/services.dart' show rootBundle;
 
@@ -24,28 +25,17 @@ class _BioDataScreen extends State<BioDataScreen> {
   }
 
   Widget build(BuildContext context) {
-    return Container(
-      padding: SCREEN_SPACE,
+    return FormCard(
+      iconData: Icons.person,
       child: ListView(
         children: <Widget>[
-          // Row(children: [
-          Icon(
-            Icons.person,
-            size: 100,
-            color: Theme.of(context).primaryColor,
-          ),
-          // Center(
-          //   child: Text("Personal Bio",
-          //       style: Theme.of(context).textTheme.headline2),
-          // ),
-          // ])\
           TextFormField(
             controller: othername,
-            decoration: InputDecoration(hintText: "Enter middle name"),
+            decoration: InputDecoration(labelText: "Middle name"),
           ),
           TextFormField(
             controller: email,
-            decoration: InputDecoration(hintText: "Enter email address"),
+            decoration: InputDecoration(labelText: "Email address"),
           ),
           DropdownButton(
             hint: Text("Select state of resident"),
@@ -82,7 +72,12 @@ class _BioDataScreen extends State<BioDataScreen> {
               ],
             ),
           ]),
-          AppButton(text: "Next", onPressed: () {})
+          OutlineButton(
+            child: Text("Submit"),
+            onPressed: () {},
+            textColor: Colors.orange,
+            borderSide: BorderSide(color: Colors.orange),
+          )
         ],
       ),
     );
