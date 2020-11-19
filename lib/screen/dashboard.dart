@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:penaid/app-widgets/dashboard-profile.dart';
 import 'package:penaid/constants.dart';
 import 'package:penaid/models/jwt.dart';
 import 'package:penaid/notifiers/page-view.dart';
@@ -32,41 +33,41 @@ class _DashboardScreen extends State<DashboardScreen> {
           3, "Profile settings", ProfileScreen(), Icons.person_pin),
     ];
     _notifier = Provider.of<PageViewNotifier>(context, listen: false);
+    double width = MediaQuery.of(context).size.width;
+    // double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
+        // toolbarHeight: appBarHeight(context),
         elevation: 0,
-        // centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
-        actions: [
-          Tooltip(
-            message: "Sign out",
-            child: InkWell(
-              onTap: () => Navigator.pop(context),
-              child: Icon(
-                Icons.exit_to_app,
-                color: Colors.red,
+        automaticallyImplyLeading: false,
+        centerTitle: false,
+        backgroundColor: Colors.orange,
+        title: Container(
+          child: Consumer<PageViewNotifier>(
+            builder: (context, data, child) => Container(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                data.currentTitle,
+                textAlign: TextAlign.start,
               ),
             ),
-          )
-        ],
-        automaticallyImplyLeading: false,
-        title: Consumer<PageViewNotifier>(
-          builder: (context, data, child) => Text(data.currentTitle),
+          ),
         ),
       ),
       body: Container(
-          color: BACKGROUND_COLOR,
-          child: PageView(
-            scrollDirection: Axis.horizontal,
-            pageSnapping: false,
-            onPageChanged: _changePage,
-            controller: _pageController,
-            children: []..addAll(pages.map((page) => page.screen).toList()),
-          )),
+        color: BACKGROUND_COLOR,
+        child: PageView(
+          scrollDirection: Axis.horizontal,
+          pageSnapping: false,
+          onPageChanged: _changePage,
+          controller: _pageController,
+          children: []..addAll(pages.map((page) => page.screen).toList()),
+        ),
+      ),
       persistentFooterButtons: <Widget>[
         Container(
           height: 30,
-          width: MediaQuery.of(context).size.width,
+          width: width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: []..addAll(

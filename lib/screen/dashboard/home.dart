@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:penaid/app-widgets/avatar.dart';
 import 'package:penaid/app-widgets/color-text.dart';
+import 'package:penaid/app-widgets/dashboard-profile.dart';
 import 'package:penaid/app-widgets/loan-list.dart';
 import 'package:penaid/app-widgets/profile-update-notice.dart';
 import 'package:penaid/constants.dart';
@@ -32,11 +32,13 @@ class _DashboardHomeView extends State<DashboardHomeView> {
   Widget build(BuildContext context) {
     return Container(
       color: BACKGROUND_COLOR,
-      child: FutureBuilder(
-        future: getUserDetails(),
-        builder: _dashboardBuilder,
-        initialData: APIResponseModel(true, "", _data.userData ?? null),
-      ),
+      child: _data.userData == null
+          ? FutureBuilder(
+              future: getUserDetails(),
+              builder: _dashboardBuilder,
+              initialData: APIResponseModel(true, "", _data.userData ?? null),
+            )
+          : DashboardWidgets(_data.userData),
     );
   }
 
@@ -49,62 +51,15 @@ class _DashboardHomeView extends State<DashboardHomeView> {
           if (response.status) {
             var user = UserModel.fromJson(response.data);
             _data.setUserInfo(user);
-            return ListView(
-              scrollDirection: Axis.vertical,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(bottom: 45),
-                  padding: EdgeInsets.only(left: 25, right: 25),
-                  decoration: BoxDecoration(
-                      color: Colors.orange,
-                      // border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10))),
-                  width: MediaQuery.of(context).size.width,
-                  // height: 65,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(_data.accessData.clientName),
-                      Container(
-                          width: 50,
-                          height: 50,
-                          padding: EdgeInsets.all(1),
-                          child: ClientAvatar(
-                            size: 35,
-                            width: 45,
-                            height: 45,
-                            userId: _data.accessData.userId,
-                          ))
-                    ],
-                  ),
-                ),
-                ProfileUpdateNotice(_data.userData),
-                Container(
-                  padding: SCREEN_SPACE,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Your loan history",
-                        style: Theme.of(context).textTheme.headline5,
-                      ),
-                      LoanListTable(_data.userData.loans)
-                    ],
-                  ),
-                )
-              ],
-            );
+            return DashboardWidgets(_data.userData);
           } else {
             return Container(
-                padding: SCREEN_SPACE,
-                child: Center(
-                  child: ColorText(
-                      NotificationModel(response.message, Colors.red)),
-                ));
+              padding: SCREEN_SPACE,
+              child: Center(
+                child:
+                    ColorText(NotificationModel(response.message, Colors.red)),
+              ),
+            );
           }
         } else {
           return Center(
@@ -113,7 +68,7 @@ class _DashboardHomeView extends State<DashboardHomeView> {
           );
         }
       } else {
-        return Center(child: CircularProgressIndicator());
+        return Center(child: Image.asset("assets/images/loading.gif"));
       }
     } catch (e) {
       return Center(
@@ -125,26 +80,29 @@ class _DashboardHomeView extends State<DashboardHomeView> {
   Future<APIResponseModel> getUserDetails() async {
     return await _api.getRequest("user");
   }
+}
 
-  // Widget getNextPayment(List<LoanModel> loanList) {
-  //   // loans != null ? loans.map((loan) => null) : Container(),
-  //   if (loanList != null) {
-  //     List<Widget> nextPayment;
-
-  //     for (var loan in loanList) {
-  //       nextPayment.add();
-  //     }
-
-  //     return Container(
-  //       width: MediaQuery.of(context).size.width,
-  //       height: MediaQuery.of(context).size.height / 4,
-  //       child: ListView(
-  //         scrollDirection: Axis.horizontal,
-  //         children: nextPayment ?? [NextPayment(null)],
-  //       ),
-  //     );
-  //   } else {
-  //     return NextPayment(null);
-  //   }
-  // }
+class DashboardWidgets extends StatelessWidget {
+  final UserModel data;
+  DashboardWidgets(this.data);
+  Widget build(BuildContext context) => ListView(
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          MiniCardProfile(),
+          ProfileUpdateNotice(data),
+          Container(
+            padding: SCREEN_SPACE,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Your loan history",
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                LoanListTable(data.loans)
+              ],
+            ),
+          )
+        ],
+      );
 }
