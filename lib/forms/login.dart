@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:penaid/app-widgets/buttons.dart';
 import 'package:penaid/app-widgets/color-text.dart';
+// import 'package:penaid/models/api-data-models/user.dart';
 import 'package:penaid/models/api.dart';
 import 'package:penaid/models/message-text.dart';
 import 'package:penaid/notifiers/page-view.dart';
@@ -28,6 +29,7 @@ class _LoginForm extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    _data.setUserInfo(null);
     return Container(
       child: ListView(
         shrinkWrap: true,

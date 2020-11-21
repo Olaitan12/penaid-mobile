@@ -5,8 +5,8 @@ class AppUserData {
   JWTModel _accessData;
   UserModel _userInfo;
 
-  JWTModel get accessData => _accessData;
-  UserModel get userData => _userInfo;
+  get accessData => _accessData;
+  get userData => _userInfo;
   setAccessData(JWTModel data) {
     this._accessData = data;
   }

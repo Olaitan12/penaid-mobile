@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class UserModel {
   // final List<LoanModel> loans;
   final List<LoanModel> loans;
+  final String othername;
   final String email;
   final String phoneNumber;
   final String accountNumber;
@@ -20,6 +21,7 @@ class UserModel {
   final CardDetails card;
   UserModel(
     this.loans,
+    this.othername,
     this.email,
     this.phoneNumber,
     this.accountNumber,
@@ -40,6 +42,7 @@ class UserModel {
     try {
       return UserModel(
         LoanModel.list(json["loan_requests"]),
+        json["othername"] as String ?? "",
         json["email"] as String ?? "",
         json["phone"] as String ?? "",
         json["account_number"] as String ?? "",
@@ -169,13 +172,13 @@ class RemitaMandate {
           ? null
           : RemitaMandate(
               json["loan_request_id"] as int,
-              json["mandate_id"] as String,
-              json["request_id"] as String,
+              json["mandate_id"] as String ?? "",
+              json["request_id"] as String ?? "",
               double.tryParse(json["amount"]),
               json["activated"] as bool,
-              json["start_date"] as String,
-              json["end_date"] as String,
-              json["activation_date"] as String,
+              json["start_date"] as String ?? "",
+              json["end_date"] as String ?? "",
+              json["activation_date"] as String ?? "",
             );
     } catch (e) {
       debugPrint("Remita model");
@@ -202,7 +205,7 @@ class RetirementDetails {
         ? null
         : RetirementDetails(
             double.parse(json["monthly_payment"].toString()),
-            json["plan"] as String,
+            json["plan"] as String ?? "",
             int.parse(json["year_of_retirement"].toString()));
   }
 }
@@ -228,10 +231,10 @@ class EmployerDetails {
     return json == null
         ? null
         : EmployerDetails(
-            json["employer_name"] as String,
-            json["industry"] as String,
-            json["sector"] as String,
-            json["job_title"] as String,
+            json["employer_name"] as String ?? "",
+            json["industry"] as String ?? "",
+            json["sector"] as String ?? "",
+            json["job_title"] as String ?? "",
             json["years_of_service"] as int,
           );
   }
@@ -253,11 +256,11 @@ class NextOfKinDetails {
     return json == null
         ? null
         : NextOfKinDetails(
-            json["surname"] as String,
-            json["firstname"] as String,
-            json["relationship"] as String,
-            json["phone_number"] as String,
-            json["address"] as String,
+            json["surname"] as String ?? "",
+            json["firstname"] as String ?? "",
+            json["relationship"] as String ?? "",
+            json["phone_number"] as String ?? "",
+            json["address"] as String ?? "",
           );
   }
 }

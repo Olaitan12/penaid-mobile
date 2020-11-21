@@ -30,24 +30,6 @@ Future<List<String>> getStates() async {
   return json.decode(jsonString);
 }
 
-Widget textFormField(
-        TextEditingController controller, IconData icon, String label,
-        [String initialValue, List<int> lines = const []]) =>
-    Padding(
-      padding: EdgeInsets.symmetric(vertical: 5),
-      child: TextFormField(
-        controller: controller,
-        initialValue: initialValue,
-        enabled: initialValue == null,
-        minLines: lines.isNotEmpty ? lines[0] : null,
-        maxLines: lines.isNotEmpty ? lines[1] : null,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: label,
-          icon: Icon(icon),
-        ),
-      ),
-    );
 const TextStyle FORM_TITLE = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w600,
