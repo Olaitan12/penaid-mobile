@@ -24,12 +24,18 @@ class _LoginForm extends State<LoginForm> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   NotificationModel _notifyUser = NotificationModel(null, null);
+  bool _hiddenPassword = true;
   API _api = GetIt.I<API>();
   AppUserData _data = GetIt.I<AppUserData>();
 
+  void _togglePasswordVisibility() {
+    setState(() {
+      _hiddenPassword = !_hiddenPassword;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    _data.setUserInfo(null);
     return Container(
       child: ListView(
         shrinkWrap: true,
@@ -37,48 +43,30 @@ class _LoginForm extends State<LoginForm> {
           Stack(
             fit: StackFit.loose,
             children: [
+              // Container(
+              //   width: MediaQuery.of(context).size.width,
+              //   // height: MediaQuery.of(context).size.height / 3,
+              //   decoration: BoxDecoration(
+              //     color: Color.fromRGBO(255, 255, 255, 1),
+              //     borderRadius: BorderRadius.only(
+              //       topLeft: Radius.circular(10),
+              //       topRight: Radius.circular(10),
+              //     ),
+              //   ),
+              //   // child: ,
+              // ),
               Container(
-                width: MediaQuery.of(context).size.width,
-                // height: MediaQuery.of(context).size.height / 3,
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(255, 255, 255, .8),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
-                ),
-                // child: ,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(255, 255, 255, .8),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10)),
+                  color: Color.fromRGBO(255, 255, 255, .98),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 margin: EdgeInsets.symmetric(horizontal: 15),
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                 width: MediaQuery.of(context).size.width,
                 // height: MediaQuery.of(context).size.height / 2,
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                        // height: MediaQuery.of(context).size.height,
-                        width: 30,
-                        padding: EdgeInsets.zero,
-                        margin: EdgeInsets.only(left: 200, bottom: 15),
-                        child: RaisedButton(
-                          padding: EdgeInsets.zero,
-                          color: Colors.red,
-                          shape: Border.all(width: 1, color: Colors.red),
-                          textColor: Colors.white,
-                          child: Icon(Icons.close),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
                       Text("LOGIN",
                           style: Theme.of(context).textTheme.headline3),
                       Container(
@@ -89,15 +77,32 @@ class _LoginForm extends State<LoginForm> {
                               children: <Widget>[
                                 TextField(
                                   decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
                                       hintText: "Enter phone number",
-                                      prefixIcon: Icon(Icons.person)),
+                                      labelText: "Phone number",
+                                      prefixIcon:
+                                          Icon(Icons.person_outline_outlined)),
                                   controller: _usernameController,
                                 ),
+                                Container(
+                                  height: 5,
+                                ),
                                 TextField(
-                                  obscureText: true,
+                                  obscureText: _hiddenPassword,
                                   decoration: InputDecoration(
-                                      hintText: "Enter password",
-                                      prefixIcon: Icon(Icons.lock)),
+                                    border: OutlineInputBorder(),
+                                    hintText: "Enter password",
+                                    labelText: "Password",
+                                    suffixIcon: IconButton(
+                                      icon: _hiddenPassword
+                                          ? Icon(Icons.remove_red_eye_outlined)
+                                          : ImageIcon(AssetImage(
+                                              "assets/icons/hide-password.png")),
+                                      onPressed: _togglePasswordVisibility,
+                                    ),
+                                    prefixIcon:
+                                        Icon(Icons.lock_outline_rounded),
+                                  ),
                                   controller: _passwordController,
                                 ),
                                 ColorText(_notifyUser),
@@ -154,6 +159,7 @@ class _LoginForm extends State<LoginForm> {
                                 JWTDecoder jwt = JWTDecoder();
                                 _data.setAccessData(
                                     jwt.parseJWT(response.data["token"]));
+                                _data.setUserInfo(null);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

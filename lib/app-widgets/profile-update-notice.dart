@@ -45,12 +45,16 @@ class ProfileUpdateNotice extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           personalInfo.contains(null) ? getProfileUpdateNotice() : Container(),
+          Container(
+            height: 25,
+          ),
           Text(
             "Complete your registration",
             style: TextStyle(
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
             ),
           ),
+          Divider()
         ]..addAll(
             listOfProfile.map(
               (e) => e.object == null
@@ -73,16 +77,17 @@ class ProfileUpdateNotice extends StatelessWidget {
                               child: Container(
                                 padding: EdgeInsets.all(10),
                                 child: Row(
-                                    // mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        e.message,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ]),
+                                  // mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      e.message,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

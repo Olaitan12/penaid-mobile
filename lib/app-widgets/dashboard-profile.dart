@@ -11,12 +11,14 @@ class MiniCardProfile extends StatelessWidget {
       // margin: EdgeInsets.only(bottom: 45),
       padding: EdgeInsets.only(left: 25, right: 25),
       decoration: BoxDecoration(
-          color: Colors.white,
-          // border: Border.all(color: Colors.white),
-          boxShadow: [BoxShadow(blurRadius: .5, color: Colors.grey)],
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(25),
-              bottomRight: Radius.circular(0))),
+        color: Colors.orange,
+        // border: Border.all(color: Colors.white),
+        boxShadow: [BoxShadow(blurRadius: .5, color: Colors.grey)],
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(25),
+          bottomRight: Radius.circular(0),
+        ),
+      ),
       width: MediaQuery.of(context).size.width,
       // height: 65,
       child: Row(

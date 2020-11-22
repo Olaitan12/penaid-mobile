@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:penaid/app-widgets/dropdown.dart';
 import 'package:penaid/app-widgets/form-card.dart';
 import 'package:penaid/app-widgets/text-field.dart';
+import 'package:penaid/app-widgets/upload-file.dart';
 import 'package:penaid/models/api-data-models/user.dart';
-import 'package:penaid/services/data.dart';
 import 'package:penaid/services/text-form-block.dart';
 import 'package:provider/provider.dart';
 
 class BankDetails extends StatefulWidget {
-  final AppUserData data;
-  BankDetails(this.data);
+  // final AppUserData data;
+  BankDetails();
   _BankDetails createState() => _BankDetails();
 }
 
@@ -18,16 +18,20 @@ class _BankDetails extends State<BankDetails> {
   TextEditingController accountNumber = TextEditingController();
   String bankCode;
   bool verified = false;
+  TextFormBloc bloc;
   Widget build(BuildContext context) {
-    var bloc = Provider.of<TextFormBloc>(context);
-    UserModel userData = widget.data.userData;
+    bloc = Provider.of<TextFormBloc>(context);
+    UserModel userData = bloc.data.userData;
+    bankCode = userData == null || userData.bankCode == null
+        ? null
+        : userData.bankCode;
     return FormCard(
       child: Column(
         children: [
           TextInputField(
             stream: bloc.accountNumberStream,
             controller: accountNumber,
-            icon: Icons.account_balance_outlined,
+            icon: Icon(Icons.account_balance_outlined),
             label: "Pension account number",
             initialValue: userData == null ? "" : userData.accountNumber,
             onChanged: (value) => bloc.process(
@@ -42,7 +46,10 @@ class _BankDetails extends State<BankDetails> {
             textKey: "name",
             onChanged: (value) => setState(() => bankCode = value),
           ),
-          Text(bankCode ?? "")
+          DocumentUpload(
+            type: "Bank statement",
+            uploadFileDescription: "Last three month",
+          ),
         ],
       ),
       // iconData: Icons.people_outline,
@@ -51,6 +58,7 @@ class _BankDetails extends State<BankDetails> {
 
   @override
   void dispose() {
+    // bloc.dispose();
     // _formKey.currentState.dispose();
     super.dispose();
   }

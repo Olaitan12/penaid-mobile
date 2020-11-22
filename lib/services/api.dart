@@ -154,3 +154,11 @@ class API {
     return path.endsWith('.pdf');
   }
 }
+
+enum UploadDocumentType {
+  passport,
+  bankStatement,
+  retirementDocument,
+  utilityBill,
+  identityCard
+}

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:penaid/app-widgets/dropdown.dart';
 import 'package:penaid/app-widgets/form-card.dart';
 import 'package:penaid/app-widgets/text-field.dart';
+import 'package:penaid/app-widgets/upload-file.dart';
 import 'package:penaid/models/api-data-models/user.dart';
-import 'package:penaid/services/data.dart';
+import 'package:penaid/services/text-form-block.dart';
+import 'package:provider/provider.dart';
 
 class EmploymentForm extends StatefulWidget {
-  final AppUserData data;
-  EmploymentForm(this.data);
+  // final AppUserData data;
+  EmploymentForm();
   _EmploymentForm createState() => _EmploymentForm();
 }
 
@@ -16,8 +18,15 @@ class _EmploymentForm extends State<EmploymentForm> {
       lastJobTitle,
       yearsOfService = TextEditingController();
   String sector, industry;
+  TextFormBloc bloc;
   Widget build(BuildContext context) {
-    UserModel userData = widget.data.userData;
+    bloc = Provider.of<TextFormBloc>(context);
+    UserModel userData = bloc.data.userData;
+    sector = userData == null ||
+            userData.employer == null ||
+            userData.employer.sector == null
+        ? ""
+        : userData.employer.sector.toLowerCase();
     return FormCard(
       child: Form(
           child: Container(
@@ -27,7 +36,7 @@ class _EmploymentForm extends State<EmploymentForm> {
             TextInputField(
               label: "Name of employer",
               controller: employerName,
-              icon: Icons.card_travel_outlined,
+              icon: Icon(Icons.card_travel_outlined),
               initialValue:
                   userData == null || userData.employer.employerName == null
                       ? ""
@@ -35,13 +44,17 @@ class _EmploymentForm extends State<EmploymentForm> {
             ),
             TextInputField(
               controller: yearsOfService,
-              icon: Icons.date_range_outlined,
+              icon: Icon(Icons.date_range_outlined),
               label: "Years of service",
+              initialValue:
+                  userData == null || userData.employer.yearsOfService == null
+                      ? ""
+                      : userData.employer.yearsOfService.toString(),
             ),
             TextInputField(
               label: "Number years of service",
               controller: lastJobTitle,
-              icon: Icons.title_outlined,
+              icon: Icon(Icons.title_outlined),
               initialValue:
                   userData == null || userData.employer.lastJobTitle == null
                       ? ""
@@ -49,7 +62,13 @@ class _EmploymentForm extends State<EmploymentForm> {
             ),
             AppDropdown(
               placeholder: "Sector",
-              list: ["Private", "State", "Federal"],
+              list: [
+                {"name": "Private", "code": "private"},
+                {"name": "State", "code": "state"},
+                {"name": "Federal", "code": "federal"}
+              ],
+              textKey: "name",
+              valueKey: "code",
               value: sector,
               onChanged: (value) => setState(() => sector = value),
             ),
@@ -59,6 +78,7 @@ class _EmploymentForm extends State<EmploymentForm> {
               value: industry,
               onChanged: (value) => setState(() => industry = value),
             ),
+            DocumentUpload(),
             OutlineButton(
               child: Text("Save"),
               onPressed: _submitForm,

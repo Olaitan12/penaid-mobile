@@ -9,7 +9,7 @@ class FormCard extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.only(left: 30, right: 30, top: 125, bottom: 20),
+      padding: EdgeInsets.only(left: 10, right: 10, top: 95, bottom: 0),
       color: Colors.grey[50], // BACKGROUND_COLOR,
       child: Card(
         semanticContainer: false,

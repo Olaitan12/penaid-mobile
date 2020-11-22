@@ -8,7 +8,7 @@ class AppDropdown extends StatefulWidget {
   final String textKey;
   final String placeholder;
   final Function(dynamic value) onChanged;
-  final Icon icon;
+  final Widget icon;
   AppDropdown(
       {@required this.list,
       @required this.value,

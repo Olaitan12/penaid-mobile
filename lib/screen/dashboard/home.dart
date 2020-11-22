@@ -10,12 +10,10 @@ import 'package:penaid/models/api.dart';
 import 'package:penaid/models/message-text.dart';
 import 'package:penaid/services/api.dart';
 import 'package:penaid/services/data.dart';
-// import 'package:penaid/services/data.dart';
 
 class DashboardHomeView extends StatefulWidget {
   // final UserModel user;
   _DashboardHomeView createState() => _DashboardHomeView();
-  // DashboardHomeView(this.user);
 }
 
 class _DashboardHomeView extends State<DashboardHomeView> {
@@ -24,9 +22,13 @@ class _DashboardHomeView extends State<DashboardHomeView> {
   AppUserData _data = GetIt.I<AppUserData>();
   // UserModel user;
   initState() {
-    //  _tabController = TabController(length: 3, vsync: this);
     getUserDetails();
     super.initState();
+  }
+
+  @override
+  dispose() {
+    super.dispose();
   }
 
   Widget build(BuildContext context) {
@@ -49,8 +51,7 @@ class _DashboardHomeView extends State<DashboardHomeView> {
         if (snapshot.hasData) {
           APIResponseModel response = snapshot.data;
           if (response.status) {
-            var user = UserModel.fromJson(response.data);
-            _data.setUserInfo(user);
+            _data.setUserInfo(UserModel.fromJson(response.data));
             return DashboardWidgets(_data.userData);
           } else {
             return Container(
@@ -91,7 +92,7 @@ class DashboardWidgets extends StatelessWidget {
           MiniCardProfile(),
           ProfileUpdateNotice(data),
           Container(
-            padding: SCREEN_SPACE,
+            padding: SCREEN_SPACE.add(EdgeInsets.symmetric(vertical: 25)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

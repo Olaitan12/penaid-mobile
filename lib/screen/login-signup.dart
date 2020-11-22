@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:penaid/app-widgets/bottom-sheet/signup-choice.dart';
-import 'package:penaid/app-widgets/buttons.dart';
+import 'package:penaid/app-widgets/circle-container.dart';
 import 'package:penaid/forms/login.dart';
 
-class _LoginSignup extends State<LoginSignup> {
+class LoginSignup extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Widget build(BuildContext context) {
@@ -12,41 +11,45 @@ class _LoginSignup extends State<LoginSignup> {
       extendBodyBehindAppBar: true,
       key: _scaffoldKey,
       body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                colorFilter: ColorFilter.linearToSrgbGamma(),
-                fit: BoxFit.cover,
-                image: AssetImage("assets/backgrounds/login.jpg")),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              // colorFilter: ColorFilter.matrix([matrix]),
+              fit: BoxFit.cover,
+              image: AssetImage("assets/backgrounds/login.jpg")),
+        ),
+        width: MediaQuery.of(context).size.width,
+        // padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Container(
+          alignment: Alignment.center,
+          color: Color.fromRGBO(0, 0, 0, 0.2),
+          child: SizedBox(
+            width: 320,
+            child: Stack(
+              children: <Widget>[
+                RoundContainer(
+                  size: 120,
+                  radius: 25,
+                  margin: EdgeInsets.only(left: 95),
+                  padding: EdgeInsets.all(10),
+                  color: Color.fromRGBO(255, 255, 255, .9),
+                  child: Image.asset(
+                    "assets/icon.png",
+                    width: 120,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 120),
+                  child: LoginForm(),
+                ),
+              ],
+            ),
           ),
-          width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                "assets/icon.png",
-                width: 120,
-              ),
-              AppButton(
-                  onPressed: () {
-                    _scaffoldKey.currentState
-                        .showBottomSheet((context) => LoginForm());
-                  },
-                  text: "Login",
-                  width: MediaQuery.of(context).size.width),
-              AppButton(
-                onPressed: () {
-                  _scaffoldKey.currentState
-                      .showBottomSheet((context) => SignupChoiceSheet());
-                },
-                text: "Signup",
-              )
-            ],
-          )),
+        ),
+      ),
     );
   }
 }
 
-class LoginSignup extends StatefulWidget {
-  _LoginSignup createState() => _LoginSignup();
-}
+// class LoginSignup extends StatefulWidget {
+//   _LoginSignup createState() => _LoginSignup();
+// }

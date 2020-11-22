@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class UserModel {
   // final List<LoanModel> loans;
   final List<LoanModel> loans;
+  final String firstname;
+  final String surname;
   final String othername;
   final String email;
   final String phoneNumber;
@@ -21,6 +23,8 @@ class UserModel {
   final CardDetails card;
   UserModel(
     this.loans,
+    this.surname,
+    this.firstname,
     this.othername,
     this.email,
     this.phoneNumber,
@@ -42,6 +46,8 @@ class UserModel {
     try {
       return UserModel(
         LoanModel.list(json["loan_requests"]),
+        json["surname"] as String ?? "",
+        json["firstname"] as String ?? "",
         json["othername"] as String ?? "",
         json["email"] as String ?? "",
         json["phone"] as String ?? "",
@@ -167,7 +173,6 @@ class RemitaMandate {
 
   factory RemitaMandate.fromJson(dynamic json) {
     try {
-      debugPrint(json.toString());
       return json == null
           ? null
           : RemitaMandate(
@@ -194,18 +199,20 @@ class RemitaMandate {
 class RetirementDetails {
   final int retirementYear;
   final String pensionPlan;
+  final String retirementProgramType;
   final double monthlyPension;
   get runtimeType => RetirementDetails;
 
-  RetirementDetails(this.monthlyPension, this.pensionPlan, this.retirementYear);
+  RetirementDetails(this.monthlyPension, this.pensionPlan,
+      this.retirementProgramType, this.retirementYear);
 
   factory RetirementDetails.fromJson(dynamic json) {
-    debugPrint(json.toString());
     return json == null
         ? null
         : RetirementDetails(
             double.parse(json["monthly_payment"].toString()),
             json["plan"] as String ?? "",
+            json["program_type"] as String ?? "",
             int.parse(json["year_of_retirement"].toString()));
   }
 }
@@ -227,7 +234,6 @@ class EmployerDetails {
   );
 
   factory EmployerDetails.fromJson(dynamic json) {
-    debugPrint(json.toString());
     return json == null
         ? null
         : EmployerDetails(
@@ -243,21 +249,22 @@ class EmployerDetails {
 class NextOfKinDetails {
   final String surname;
   final String firstName;
+  final String othername;
   final String phoneNumber;
   final String address;
   final String relationship;
   get runtimeType => NextOfKinDetails;
 
-  NextOfKinDetails(this.surname, this.firstName, this.relationship,
-      this.phoneNumber, this.address);
+  NextOfKinDetails(this.surname, this.firstName, this.othername,
+      this.relationship, this.phoneNumber, this.address);
 
   factory NextOfKinDetails.fromJson(dynamic json) {
-    debugPrint(json.toString());
     return json == null
         ? null
         : NextOfKinDetails(
             json["surname"] as String ?? "",
             json["firstname"] as String ?? "",
+            json["othername"] as String ?? "",
             json["relationship"] as String ?? "",
             json["phone_number"] as String ?? "",
             json["address"] as String ?? "",
@@ -276,7 +283,6 @@ class CardDetails {
       this.last4, this.bank, this.expiryMonth, this.expiryYear, this.brand);
   get runtimeType => CardDetails;
   factory CardDetails.fromJson(dynamic json) {
-    debugPrint(json.toString());
     return json == null
         ? null
         : CardDetails(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TextInputField extends StatefulWidget {
   final TextEditingController controller;
   final Function(String) onChanged;
-  final IconData icon;
+  final Widget icon;
   final String label;
   final String initialValue;
   final List<int> lines;
@@ -27,7 +27,6 @@ class TextInputField extends StatefulWidget {
 
 class _TextInputField extends State<TextInputField> {
   Widget build(BuildContext context) {
-    // var bloc = Provider.of<TextFormBloc>(context);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5),
       child: Container(
@@ -43,7 +42,7 @@ class _TextInputField extends State<TextInputField> {
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               labelText: widget.label,
-              icon: Icon(widget.icon),
+              icon: widget.icon,
               errorText: snapshot.error,
             ),
             onChanged: widget.onChanged,

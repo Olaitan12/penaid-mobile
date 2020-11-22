@@ -3,16 +3,18 @@ import 'package:flutter/services.dart';
 import 'package:penaid/app-widgets/dropdown.dart';
 import 'package:penaid/app-widgets/form-card.dart';
 import 'package:penaid/app-widgets/text-field.dart';
+import 'package:penaid/app-widgets/upload-file.dart';
 import 'package:penaid/constants.dart';
-import 'package:penaid/services/data.dart';
+import 'package:penaid/models/api-data-models/user.dart';
+import 'package:penaid/services/api.dart';
+// import 'package:penaid/services/data.dart';
 import 'package:penaid/services/text-form-block.dart';
 import 'package:provider/provider.dart';
 // import 'package:flutter/services.dart' show rootBundle;
 
 class BioDataScreen extends StatefulWidget {
-  BioDataScreen(this.data);
-  final AppUserData data;
-
+  BioDataScreen();
+  // final AppUserData data;
   _BioDataScreen createState() => _BioDataScreen();
 }
 
@@ -32,17 +34,23 @@ class _BioDataScreen extends State<BioDataScreen> {
   Map<String, dynamic> formData = {};
   initState() {
     super.initState();
-    setState(() {
-      _gender =
-          widget.data.userData == null || widget.data.userData.gender == null
-              ? "male"
-              : widget.data.userData.gender;
-    });
+    // setState(() {
+    //   _gender =
+    //       bloc.userData == null || bloc.userData.gender == null
+    //           ? "male"
+    //           : bloc.userData.gender;
+    // });
   }
 
+  TextFormBloc bloc;
   Widget build(BuildContext context) {
-    var userData = widget.data.userData;
-    var bloc = Provider.of<TextFormBloc>(context);
+    bloc = Provider.of<TextFormBloc>(context);
+    UserModel userData = bloc.data.userData;
+    _state = userData == null || userData.stateOfResisdence == null
+        ? "male"
+        : userData.stateOfResisdence;
+    _gender =
+        userData == null || userData.gender == null ? "male" : userData.gender;
     return FormCard(
       // iconData: Icons.person,
       child: Form(
@@ -63,9 +71,7 @@ class _BioDataScreen extends State<BioDataScreen> {
                       padding: EdgeInsets.only(right: 1),
                       child: TextFormField(
                         enabled: false,
-                        initialValue: widget.data.accessData == null
-                            ? ""
-                            : widget.data.accessData.surname,
+                        initialValue: userData == null ? "" : userData.surname,
                         controller: surname,
                         decoration: InputDecoration(
                           suffixIcon: Icon(Icons.lock_outline),
@@ -81,9 +87,8 @@ class _BioDataScreen extends State<BioDataScreen> {
                       padding: EdgeInsets.only(left: 1),
                       child: TextFormField(
                         enabled: false,
-                        initialValue: widget.data.accessData == null
-                            ? ""
-                            : widget.data.accessData.firstname,
+                        initialValue:
+                            userData == null ? "" : userData.firstname,
                         smartDashesType: SmartDashesType.disabled,
                         controller: firstname,
                         decoration: InputDecoration(
@@ -102,7 +107,7 @@ class _BioDataScreen extends State<BioDataScreen> {
                     Validate(value, Validation.isRequired),
                     bloc.othernameSubject),
                 controller: othername,
-                icon: Icons.person_outline,
+                icon: Icon(Icons.person_outlined),
                 label: "Other name",
                 initialValue: userData == null ? "" : userData.othername),
             TextInputField(
@@ -110,7 +115,7 @@ class _BioDataScreen extends State<BioDataScreen> {
                 onChanged: (value) => bloc.process(
                     Validate(value, Validation.isDate), bloc.othernameSubject),
                 controller: dob,
-                icon: Icons.date_range_outlined,
+                icon: Icon(Icons.date_range_outlined),
                 label: "Date of birth",
                 initialValue: userData == null
                     ? ""
@@ -145,7 +150,7 @@ class _BioDataScreen extends State<BioDataScreen> {
             TextInputField(
                 stream: bloc.phoneNumberStream,
                 controller: phoneNumber,
-                icon: Icons.phone_outlined,
+                icon: Icon(Icons.phone_outlined),
                 label: "Phone number",
                 onChanged: (value) => bloc.process(
                     Validate(value, Validation.isPhoneNumber),
@@ -154,7 +159,7 @@ class _BioDataScreen extends State<BioDataScreen> {
             TextInputField(
                 stream: bloc.emailStream,
                 controller: email,
-                icon: Icons.email_outlined,
+                icon: Icon(Icons.email_outlined),
                 onChanged: (value) => bloc.process(
                     Validate(value, Validation.isEmail), bloc.emailSubject),
                 label: "Email address",
@@ -162,7 +167,7 @@ class _BioDataScreen extends State<BioDataScreen> {
             TextInputField(
                 stream: bloc.addressStream,
                 controller: address,
-                icon: Icons.home_outlined,
+                icon: Icon(Icons.home_outlined),
                 onChanged: (value) => bloc.process(
                     Validate(value, Validation.isRequired),
                     bloc.addressSubject),
@@ -179,6 +184,10 @@ class _BioDataScreen extends State<BioDataScreen> {
               placeholder: "State of residence",
               onChanged: (value) => setState(() => _state = value),
             ),
+            DocumentUpload(
+              type: "Upload utility bill",
+              documentType: UploadDocumentType.utilityBill,
+            ),
             OutlineButton(
               child: Text("Save"),
               onPressed: _submitForm,
@@ -191,24 +200,6 @@ class _BioDataScreen extends State<BioDataScreen> {
     );
   }
 
-  // Widget textFormField(
-  //         TextEditingController controller, IconData icon, String label,
-  //         [initialValue, List<int> lines = const []]) =>
-  //     Padding(
-  //       padding: EdgeInsets.symmetric(vertical: 5),
-  //       child: TextFormField(
-  //         controller: controller,
-  //         initialValue: initialValue,
-  //         enabled: initialValue == null,
-  //         minLines: lines.isNotEmpty ? lines[0] : null,
-  //         maxLines: lines.isNotEmpty ? lines[1] : null,
-  //         decoration: InputDecoration(
-  //           border: OutlineInputBorder(),
-  //           labelText: label,
-  //           icon: Icon(icon),
-  //         ),
-  //       ),
-  //     );
   _setGender(String gender) {
     setState(() {
       // formData["gender"] = _gender;
@@ -227,6 +218,7 @@ class _BioDataScreen extends State<BioDataScreen> {
   @override
   void dispose() {
     // _formKey.currentState?.dispose();
+    // bloc.dispose();
     super.dispose();
   }
 

@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:penaid/services/data.dart';
 import 'package:rxdart/rxdart.dart';
 
 class TextFormBloc {
+  final AppUserData data = GetIt.I<AppUserData>();
   final BehaviorSubject<Validate> emailSubject = BehaviorSubject<Validate>();
   final BehaviorSubject<Validate> othernameSubject =
       BehaviorSubject<Validate>();
@@ -14,6 +17,22 @@ class TextFormBloc {
   final BehaviorSubject<Validate> amountSubject = BehaviorSubject<Validate>();
   final BehaviorSubject<Validate> accountNumberSubject =
       BehaviorSubject<Validate>();
+  /* *
+   * Next of kin
+   */
+  final BehaviorSubject<Validate> nokSurnameSubject =
+      BehaviorSubject<Validate>();
+  final BehaviorSubject<Validate> nokFirstnameSubject =
+      BehaviorSubject<Validate>();
+  final BehaviorSubject<Validate> nokOthernameSubject =
+      BehaviorSubject<Validate>();
+  final BehaviorSubject<Validate> nokRelationshipSubject =
+      BehaviorSubject<Validate>();
+  final BehaviorSubject<Validate> nokPhoneNumberSubject =
+      BehaviorSubject<Validate>();
+  final BehaviorSubject<Validate> nokAddressSubject =
+      BehaviorSubject<Validate>();
+
   // final textValue = BehaviorSubject<Validate>();
 
   Stream<String> get phoneNumberStream =>
@@ -27,6 +46,22 @@ class TextFormBloc {
       accountNumberSubject.stream.transform(validate);
   Stream<String> get amountStream => amountSubject.stream.transform(validate);
   // Stream<String> get emailStream => emailSubject.stream.transform(validate);
+
+  /* *
+   * Next of kin stream
+   */
+  Stream<String> get nokFirstnameStream =>
+      nokFirstnameSubject.stream.transform(validate);
+  Stream<String> get nokOthernameStream =>
+      nokOthernameSubject.stream.transform(validate);
+  Stream<String> get nokAddressStream =>
+      nokAddressSubject.stream.transform(validate);
+  Stream<String> get nokRelationshipStream =>
+      nokRelationshipSubject.stream.transform(validate);
+  Stream<String> get nokPhoneNumberStream =>
+      nokPhoneNumberSubject.stream.transform(validate);
+  Stream<String> get nokSurnameStream =>
+      nokSurnameSubject.stream.transform(validate);
 
   void process(Validate validate, BehaviorSubject<Validate> subject) {
     subject.sink.add(validate);
@@ -52,7 +87,7 @@ class TextFormBloc {
             DateTime.parse(data.text);
             sink.add(data.text);
           } catch (e) {
-            sink.addError("Invalid date try DD-MM-YYY");
+            sink.addError("Invalid date try DD-MM-YYYY");
             debugPrint(e.toString());
           }
           break;
@@ -99,6 +134,22 @@ class TextFormBloc {
       // }
     },
   );
+
+  void dispose() {
+    emailSubject.close();
+    othernameSubject.close();
+    phoneNumberSubject.close();
+    dobSubject.close();
+    addressSubject.close();
+    amountSubject.close();
+    accountNumberSubject.close();
+    nokSurnameSubject.close();
+    nokFirstnameSubject.close();
+    nokOthernameSubject.close();
+    nokRelationshipSubject.close();
+    nokPhoneNumberSubject.close();
+    nokAddressSubject.close();
+  }
 }
 
 enum Validation {

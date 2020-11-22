@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:penaid/app-widgets/dropdown.dart';
 import 'package:penaid/app-widgets/form-card.dart';
 import 'package:penaid/app-widgets/text-field.dart';
+import 'package:penaid/app-widgets/upload-file.dart';
 import 'package:penaid/models/api-data-models/user.dart';
-import 'package:penaid/services/data.dart';
+import 'package:penaid/services/api.dart';
 import 'package:penaid/services/text-form-block.dart';
 import 'package:provider/provider.dart';
 
 class RetirementForm extends StatefulWidget {
-  final AppUserData data;
-  RetirementForm(this.data);
+  // final AppUserData data;
+  RetirementForm();
   _RetirementForm createState() => _RetirementForm();
 }
 
@@ -19,9 +20,20 @@ class _RetirementForm extends State<RetirementForm> {
   String pensionPlan;
   String retirementProgramType;
   String pensionFundCustodian;
+  TextFormBloc bloc;
   Widget build(BuildContext context) {
-    UserModel userData = widget.data.userData;
-    var bloc = Provider.of<TextFormBloc>(context);
+    bloc = Provider.of<TextFormBloc>(context);
+    UserModel userData = bloc.data.userData;
+    pensionPlan = userData == null ||
+            userData.retirement == null ||
+            userData.retirement.pensionPlan == null
+        ? null
+        : userData.retirement.pensionPlan;
+    retirementProgramType = userData == null ||
+            userData.retirement == null ||
+            userData.retirement.pensionPlan == null
+        ? null
+        : userData.retirement.pensionPlan;
     return FormCard(
       child: Form(
         child: Container(
@@ -32,7 +44,8 @@ class _RetirementForm extends State<RetirementForm> {
               TextInputField(
                 stream: bloc.amountStream,
                 controller: monthyPension,
-                icon: Icons.home,
+                icon: ImageIcon(AssetImage("assets/icons/naira.png")),
+                // icon: Icons.home,
                 onChanged: (value) => bloc.process(
                     Validate(value, Validation.isAmount), bloc.amountSubject),
                 label: "Pension amount",
@@ -41,18 +54,15 @@ class _RetirementForm extends State<RetirementForm> {
                     : userData.retirement.monthlyPension.toString(),
               ),
               AppDropdown(
-                list: [
-                  {"name": "RSA", "code": "rsa"},
-                  {"name": "PTAD", "code": "ptad"}
-                ],
+                list: ["RSA", "PTAD"],
                 value: pensionPlan,
                 placeholder: "Pension plan",
-                textKey: "name",
-                valueKey: "code",
+                // textKey: "name",
+                // valueKey: "code",
                 onChanged: (value) =>
                     setState(() => pensionPlan = value as String),
               ),
-              pensionPlan == "rsa"
+              pensionPlan == "RSA"
                   ? AppDropdown(
                       list: ["Programmed Withdrawal", "Annuity"],
                       value: retirementProgramType,
@@ -62,6 +72,10 @@ class _RetirementForm extends State<RetirementForm> {
                     )
                   : Container(),
               // retirementProgramType == "" ?
+              DocumentUpload(
+                type: "Retirement Document",
+                documentType: UploadDocumentType.retirementDocument,
+              ),
               OutlineButton(
                 child: Text("Save"),
                 onPressed: _submitForm,
@@ -83,6 +97,7 @@ class _RetirementForm extends State<RetirementForm> {
 
   @override
   void dispose() {
+    // bloc.dispose();
     super.dispose();
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+// import 'package:get_it/get_it.dart';
 import 'package:penaid/app-widgets/circle-container.dart';
 import 'package:penaid/notifiers/page-view.dart';
 import 'package:penaid/screen/dashboard.dart';
@@ -8,12 +8,11 @@ import 'package:penaid/screen/dashboard/account/bio.dart';
 import 'package:penaid/screen/dashboard/account/employment.dart';
 import 'package:penaid/screen/dashboard/account/next-of-kin.dart';
 import 'package:penaid/screen/dashboard/account/retirement.dart';
-import 'package:penaid/services/data.dart';
+// import 'package:penaid/services/data.dart';
 import 'package:penaid/services/text-form-block.dart';
 import 'package:provider/provider.dart';
 
 class PersonalInformation extends StatefulWidget {
-  final AppUserData data = GetIt.I<AppUserData>();
   _PersonalInformation createState() => _PersonalInformation();
 }
 
@@ -24,14 +23,11 @@ class _PersonalInformation extends State<PersonalInformation> {
 
   Widget build(BuildContext personalInformationContext) {
     pages = [
-      DashboardScreenModel(
-          0, "Personal Information", BioDataScreen(widget.data), null),
-      DashboardScreenModel(1, "Bank details", BankDetails(widget.data), null),
-      DashboardScreenModel(
-          2, "Retirement program", RetirementForm(widget.data), null),
-      DashboardScreenModel(
-          3, "Employment History", EmploymentForm(widget.data), null),
-      DashboardScreenModel(4, "Next of kin", NextOfKinForm(widget.data), null),
+      DashboardScreenModel(0, "Personal Information", BioDataScreen(), null),
+      DashboardScreenModel(1, "Bank details", BankDetails(), null),
+      DashboardScreenModel(2, "Retirement program", RetirementForm(), null),
+      DashboardScreenModel(3, "Employment History", EmploymentForm(), null),
+      DashboardScreenModel(4, "Next of kin", NextOfKinForm(), null),
     ];
     double appBarHeight = MediaQuery.of(context).size.height / 8;
     _notifier = Provider.of<PageViewNotifier>(personalInformationContext,
@@ -39,6 +35,7 @@ class _PersonalInformation extends State<PersonalInformation> {
     pageController = _notifier.pageController;
     return Provider<TextFormBloc>(
       create: (context) => TextFormBloc(),
+      dispose: (context, value) => value.dispose(),
       child: Scaffold(
         appBar: PreferredSize(
             child: Consumer<PageViewNotifier>(builder: (context, data, child) {
@@ -151,5 +148,9 @@ class _PersonalInformation extends State<PersonalInformation> {
   void _changePage(int index, [String title]) {
     pageController.jumpToPage(index);
     _notifier.updatePage(index);
+  }
+
+  void dispose() {
+    super.dispose();
   }
 }
