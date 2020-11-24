@@ -25,11 +25,6 @@ Future<String> getPhotoFile() async {
   return links["storage_url"] as String;
 }
 
-Future<List<String>> getStates() async {
-  String jsonString = await rootBundle.loadString("assets/states.json");
-  return json.decode(jsonString);
-}
-
 const TextStyle FORM_TITLE = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w600,

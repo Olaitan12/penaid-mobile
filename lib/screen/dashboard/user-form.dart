@@ -5,6 +5,7 @@ import 'package:penaid/notifiers/page-view.dart';
 import 'package:penaid/screen/dashboard.dart';
 import 'package:penaid/screen/dashboard/account/bank-detail.dart';
 import 'package:penaid/screen/dashboard/account/bio.dart';
+import 'package:penaid/screen/dashboard/account/contact-detail.dart';
 import 'package:penaid/screen/dashboard/account/employment.dart';
 import 'package:penaid/screen/dashboard/account/next-of-kin.dart';
 import 'package:penaid/screen/dashboard/account/retirement.dart';
@@ -24,10 +25,11 @@ class _PersonalInformation extends State<PersonalInformation> {
   Widget build(BuildContext personalInformationContext) {
     pages = [
       DashboardScreenModel(0, "Personal Information", BioDataScreen(), null),
-      DashboardScreenModel(1, "Bank details", BankDetails(), null),
-      DashboardScreenModel(2, "Retirement program", RetirementForm(), null),
-      DashboardScreenModel(3, "Employment History", EmploymentForm(), null),
-      DashboardScreenModel(4, "Next of kin", NextOfKinForm(), null),
+      DashboardScreenModel(1, "Contact Information", ContactInfoScreen(), null),
+      DashboardScreenModel(2, "Bank details", BankDetails(), null),
+      DashboardScreenModel(3, "Retirement program", RetirementForm(), null),
+      DashboardScreenModel(4, "Employment History", EmploymentForm(), null),
+      DashboardScreenModel(5, "Next of kin", NextOfKinForm(), null),
     ];
     double appBarHeight = MediaQuery.of(context).size.height / 8;
     _notifier = Provider.of<PageViewNotifier>(personalInformationContext,

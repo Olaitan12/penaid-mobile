@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:penaid/app-widgets/dropdown.dart';
 import 'package:penaid/app-widgets/form-card.dart';
 import 'package:penaid/app-widgets/text-field.dart';
-import 'package:penaid/app-widgets/upload-file.dart';
 import 'package:penaid/models/api-data-models/user.dart';
 import 'package:penaid/services/text-form-block.dart';
 import 'package:provider/provider.dart';
@@ -78,7 +77,6 @@ class _EmploymentForm extends State<EmploymentForm> {
               value: industry,
               onChanged: (value) => setState(() => industry = value),
             ),
-            DocumentUpload(),
             OutlineButton(
               child: Text("Save"),
               onPressed: _submitForm,

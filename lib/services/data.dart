@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:penaid/models/api-data-models/user.dart';
 import 'package:penaid/models/jwt.dart';
 
@@ -13,11 +12,6 @@ class AppUserData {
   }
 
   setUserInfo(UserModel data) {
-    debugPrint("=======Updating============");
-    debugPrint("$data");
-    debugPrint("=======Updating============");
-
     this._userInfo = data;
   }
-  // AppUserData(this.accessData, this.user);
 }

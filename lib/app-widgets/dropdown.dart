@@ -46,26 +46,23 @@ class _AppDropdown extends State<AppDropdown> {
         border: Border.all(color: Colors.grey[500]),
       ),
       child: DropdownButtonHideUnderline(
-        child: DropdownButton<dynamic>(
+        child: DropdownButton<String>(
           hint: Padding(
               padding: EdgeInsets.only(left: 10),
               child: Text(widget.placeholder)),
           isExpanded: true,
           value: widget.value,
-          items: widget.list
-              .map((item) {
-                return DropdownMenuItem(
-                  value: widget.valueKey == null ? item : item[widget.valueKey],
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: widget.textKey == null
-                        ? Text(item)
-                        : Text(item[widget.textKey]),
-                  ),
-                );
-              })
-              .where((e) => e != null)
-              .toList(),
+          items: widget.list.map((item) {
+            return DropdownMenuItem<String>(
+              value: widget.valueKey == null ? item : item[widget.valueKey],
+              child: Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: widget.textKey == null
+                    ? Text(item)
+                    : Text(item[widget.textKey]),
+              ),
+            );
+          }).toList(),
           onChanged: widget.onChanged,
         ),
       ),

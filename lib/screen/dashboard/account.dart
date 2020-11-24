@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-
 import 'package:penaid/app-widgets/avatar.dart';
 import 'package:penaid/notifiers/page-view.dart';
 import 'package:penaid/screen/dashboard/account/about.dart';
-import 'package:penaid/screen/user-form.dart';
+import 'package:penaid/screen/dashboard/user-form.dart';
 import 'package:penaid/screen/terms-condition.dart';
 import 'package:penaid/services/api.dart';
 import 'package:penaid/services/data.dart';

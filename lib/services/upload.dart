@@ -61,35 +61,51 @@ class UploadService {
         return Center(
             child: SizedBox(
           width: 250,
-          height: 150,
+          height: 160,
           child: Card(
             child: Container(
               padding: EdgeInsets.all(30),
               width: 250,
-              height: 100,
-              child: Column(
-                children: [
-                  Text("Take a photo from:"),
-                  Container(
-                    child: Row(
-                      children: [
-                        FlatButton(
-                            onPressed: () {
-                              pickFile(ImageSource.gallery);
-                              Navigator.pop(context);
-                            },
-                            child: Text("Gallery")),
-                        FlatButton(
-                            onPressed: () {
-                              pickFile(ImageSource.camera);
-                              Navigator.pop(context);
-                            },
-                            child: Text("Camera")),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+              height: 150,
+              child: Column(children: [
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Column(
+                      //   children: [
+                      InkWell(
+                        onTap: () {
+                          pickFile(ImageSource.gallery);
+                          Navigator.pop(context);
+                        },
+                        child: Column(children: [
+                          Image.asset(
+                            "assets/icons/gallery.png",
+                            width: 45,
+                          ),
+                          Text("Photos"),
+                        ]),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          pickFile(ImageSource.camera);
+                          Navigator.pop(context);
+                        },
+                        child: Column(children: [
+                          Image.asset(
+                            "assets/icons/camera.png",
+                            width: 45,
+                          ),
+                          Text("Camera"),
+                        ]),
+                      ),
+                    ],
+                  ),
+                  //   ],
+                  // ),
+                ),
+              ]),
             ),
           ),
         ));

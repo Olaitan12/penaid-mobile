@@ -4,6 +4,7 @@ import 'package:penaid/app-widgets/form-card.dart';
 import 'package:penaid/app-widgets/text-field.dart';
 import 'package:penaid/app-widgets/upload-file.dart';
 import 'package:penaid/models/api-data-models/user.dart';
+import 'package:penaid/services/api.dart';
 import 'package:penaid/services/text-form-block.dart';
 import 'package:provider/provider.dart';
 
@@ -47,6 +48,8 @@ class _BankDetails extends State<BankDetails> {
             onChanged: (value) => setState(() => bankCode = value),
           ),
           DocumentUpload(
+            documentType: UploadDocumentType.bankStatement,
+            // icon: Icon(Icons.picture_as_pdf_outlined),
             type: "Bank statement",
             uploadFileDescription: "Last three month",
           ),

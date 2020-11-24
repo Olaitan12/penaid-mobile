@@ -88,11 +88,9 @@ class TextFormBloc {
             sink.add(data.text);
           } catch (e) {
             sink.addError("Invalid date try DD-MM-YYYY");
-            debugPrint(e.toString());
           }
           break;
         case Validation.isEmail:
-          debugPrint("isemail");
           if (Validator.isEmail(data.text)) {
             sink.add(data.text);
           } else {
@@ -114,7 +112,6 @@ class TextFormBloc {
               i == null
                   ? sink.addError("You input must be a number")
                   : sink.add(i.toString());
-              debugPrint(i.toString());
             } catch (e) {}
           } else {
             sink.add("Invalid input");
@@ -170,7 +167,6 @@ class Validate {
 
 class Validator {
   static bool isEmail(String text) {
-    debugPrint(text);
     final regex = RegExp(
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     return (_isNotNull(text) && regex.hasMatch(text));

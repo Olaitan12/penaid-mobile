@@ -59,8 +59,7 @@ class _RetirementForm extends State<RetirementForm> {
                 placeholder: "Pension plan",
                 // textKey: "name",
                 // valueKey: "code",
-                onChanged: (value) =>
-                    setState(() => pensionPlan = value as String),
+                onChanged: (value) => setState(() => pensionPlan = value),
               ),
               pensionPlan == "RSA"
                   ? AppDropdown(
