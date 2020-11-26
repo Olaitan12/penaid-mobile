@@ -36,32 +36,35 @@ class _EmploymentForm extends State<EmploymentForm> {
               label: "Name of employer",
               controller: employerName,
               icon: Icon(Icons.card_travel_outlined),
-              initialValue:
-                  userData == null || userData.employer.employerName == null
-                      ? ""
-                      : userData.employer.employerName,
+              initialValue: userData == null ||
+                      userData.employer == null ||
+                      userData.employer.employerName == null
+                  ? ""
+                  : userData.employer.employerName,
             ),
             TextInputField(
               controller: yearsOfService,
               icon: Icon(Icons.date_range_outlined),
               label: "Years of service",
-              initialValue:
-                  userData == null || userData.employer.yearsOfService == null
-                      ? ""
-                      : userData.employer.yearsOfService.toString(),
+              initialValue: userData == null ||
+                      userData.employer == null ||
+                      userData.employer.yearsOfService == null
+                  ? ""
+                  : userData.employer.yearsOfService.toString(),
             ),
             TextInputField(
               label: "Number years of service",
               controller: lastJobTitle,
               icon: Icon(Icons.title_outlined),
-              initialValue:
-                  userData == null || userData.employer.lastJobTitle == null
-                      ? ""
-                      : userData.employer.lastJobTitle,
+              initialValue: userData == null ||
+                      userData.employer == null ||
+                      userData.employer.lastJobTitle == null
+                  ? ""
+                  : userData.employer.lastJobTitle,
             ),
             AppDropdown(
               placeholder: "Sector",
-              list: [
+              listOfMap: [
                 {"name": "Private", "code": "private"},
                 {"name": "State", "code": "state"},
                 {"name": "Federal", "code": "federal"}
@@ -73,7 +76,7 @@ class _EmploymentForm extends State<EmploymentForm> {
             ),
             AppDropdown(
               placeholder: "Industry",
-              list: industries,
+              listOfString: industries,
               value: industry,
               onChanged: (value) => setState(() => industry = value),
             ),
@@ -101,15 +104,14 @@ class _EmploymentForm extends State<EmploymentForm> {
     "Nigeria Navy",
     "Nigeria Army",
     "Nigeria Airforce",
-    "Education"
-        "Lagos State Civil Service Commission",
+    "Education",
+    "Lagos State Civil Service Commission",
     "Nitel",
-    "Postal Services"
-        "Nigerian Railway Corporation",
+    "Postal Services",
+    "Nigerian Railway Corporation",
     "Custom Service",
     "Housing",
     "Local Goverment Commission (Ikeja)",
-    "University of Lagos",
     "Intercontinental Distillery",
     "Lagos State Primary Education Board",
     "University of Lagos",

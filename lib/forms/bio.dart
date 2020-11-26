@@ -111,11 +111,7 @@ class _BioDataScreen extends State<BioDataScreen> {
                   Padding(
                       padding: EdgeInsets.only(left: 45), child: Text("Male")),
                   Radio(
-                      value: "male",
-                      groupValue: _gender,
-                      onChanged: (gender) {
-                        _setGender(gender);
-                      })
+                      value: "male", groupValue: _gender, onChanged: _setGender)
                 ],
               ),
               Row(
@@ -124,9 +120,7 @@ class _BioDataScreen extends State<BioDataScreen> {
                   Radio(
                       value: "female",
                       groupValue: _gender,
-                      onChanged: (gender) {
-                        _setGender(gender);
-                      })
+                      onChanged: _setGender)
                 ],
               ),
             ]),
@@ -148,6 +142,7 @@ class _BioDataScreen extends State<BioDataScreen> {
   }
 
   _setGender(String gender) {
+    debugPrint(gender);
     setState(() {
       _gender = gender;
     });

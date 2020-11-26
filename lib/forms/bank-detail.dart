@@ -41,7 +41,7 @@ class _BankDetails extends State<BankDetails> {
           ),
           AppDropdown(
             placeholder: "Bank",
-            list: _banks,
+            listOfMap: _banks,
             value: bankCode,
             valueKey: "code",
             textKey: "name",

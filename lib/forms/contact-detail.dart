@@ -36,7 +36,7 @@ class _ContactInfoScreen extends State<ContactInfoScreen> {
     bloc = Provider.of<TextFormBloc>(context);
     UserModel userData = bloc.data.userData;
     _state = userData == null || userData.stateOfResisdence == null
-        ? "male"
+        ? null
         : userData.stateOfResisdence;
     return FormCard(
       // iconData: Icons.person,
@@ -73,16 +73,64 @@ class _ContactInfoScreen extends State<ContactInfoScreen> {
                 label: "Residential address",
                 initialValue: userData == null ? "" : userData.address,
                 lines: [3, 10]),
-            AppDropdown(
-              icon: Icon(
-                Icons.my_location_outlined,
-                color: Colors.grey[500],
-              ),
-              list: _states,
-              value: _state,
-              placeholder: "State of residence",
-              onChanged: (value) => setState(() => _state = value),
-            ),
+            _state == null
+                ? AppDropdown(
+                    icon: Icon(
+                      Icons.my_location_outlined,
+                      color: Colors.grey[500],
+                    ),
+                    listOfString: _states,
+                    placeholder: "State of residence",
+                    onChanged: (value) => setState(() => _state = value),
+                  )
+                : AppDropdown(
+                    icon: Icon(
+                      Icons.my_location_outlined,
+                      color: Colors.grey[500],
+                    ),
+                    listOfString: <String>[
+                      "Abia",
+                      "Adamawa",
+                      "Akwa Ibom",
+                      "Anambra",
+                      "Bauchi",
+                      "Bayelsa",
+                      "Benue",
+                      "Borno",
+                      "Cross River",
+                      "Delta",
+                      "Ebonyi",
+                      "Edo",
+                      "Ekiti",
+                      "Enugu",
+                      "Abuja",
+                      "Gombe",
+                      "Imo",
+                      "Jigawa",
+                      "Kaduna",
+                      "Kano",
+                      "Katsina",
+                      "Kebbi",
+                      "Kogi",
+                      "Kwara",
+                      "Lagos",
+                      "Nassarawa",
+                      "Niger",
+                      "Ogun",
+                      "Ondo",
+                      "Osun",
+                      "Oyo",
+                      "Plateau",
+                      "Rivers",
+                      "Sokoto",
+                      "Taraba",
+                      "Yobe",
+                      "Zamfara"
+                    ],
+                    value: _state,
+                    placeholder: "State of residence",
+                    onChanged: (value) => setState(() => _state = value),
+                  ),
             DocumentUpload(
               type: "Upload utility bill",
               documentType: UploadDocumentType.utilityBill,

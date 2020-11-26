@@ -27,12 +27,12 @@ class _RetirementForm extends State<RetirementForm> {
     pensionPlan = userData == null ||
             userData.retirement == null ||
             userData.retirement.pensionPlan == null
-        ? null
+        ? ""
         : userData.retirement.pensionPlan;
     retirementProgramType = userData == null ||
             userData.retirement == null ||
             userData.retirement.pensionPlan == null
-        ? null
+        ? ""
         : userData.retirement.pensionPlan;
     return FormCard(
       child: Form(
@@ -54,16 +54,19 @@ class _RetirementForm extends State<RetirementForm> {
                     : userData.retirement.monthlyPension.toString(),
               ),
               AppDropdown(
-                list: ["RSA", "PTAD"],
+                listOfString: <String>["RSA", "PTAD"],
                 value: pensionPlan,
                 placeholder: "Pension plan",
                 // textKey: "name",
                 // valueKey: "code",
                 onChanged: (value) => setState(() => pensionPlan = value),
               ),
-              pensionPlan == "RSA"
+              pensionPlan.trim().toLowerCase() == "rsa"
                   ? AppDropdown(
-                      list: ["Programmed Withdrawal", "Annuity"],
+                      listOfString: <String>[
+                        "Programmed Withdrawal",
+                        "Annuity"
+                      ],
                       value: retirementProgramType,
                       placeholder: "Retirement Programme Type",
                       onChanged: (value) => setState(

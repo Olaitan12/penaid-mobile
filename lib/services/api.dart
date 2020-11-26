@@ -131,7 +131,7 @@ class API {
         filename: filePath.split("/").last,
         contentType: _getFileMimeType(filePath)));
     var res = await request.send();
-
+    // res.stream
     return res.statusCode.toString();
     // debugPrint(res.persistentConnection)
   }

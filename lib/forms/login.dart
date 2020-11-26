@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:penaid/app-widgets/buttons.dart';
 import 'package:penaid/app-widgets/color-text.dart';
-// import 'package:penaid/models/api-data-models/user.dart';
 import 'package:penaid/models/api.dart';
 import 'package:penaid/models/message-text.dart';
 import 'package:penaid/notifiers/page-view.dart';
@@ -43,18 +42,6 @@ class _LoginForm extends State<LoginForm> {
           Stack(
             fit: StackFit.loose,
             children: [
-              // Container(
-              //   width: MediaQuery.of(context).size.width,
-              //   // height: MediaQuery.of(context).size.height / 3,
-              //   decoration: BoxDecoration(
-              //     color: Color.fromRGBO(255, 255, 255, 1),
-              //     borderRadius: BorderRadius.only(
-              //       topLeft: Radius.circular(10),
-              //       topRight: Radius.circular(10),
-              //     ),
-              //   ),
-              //   // child: ,
-              // ),
               Container(
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(255, 255, 255, .98),
@@ -76,6 +63,7 @@ class _LoginForm extends State<LoginForm> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 TextField(
+                                  keyboardType: TextInputType.phone,
                                   decoration: InputDecoration(
                                       border: OutlineInputBorder(),
                                       hintText: "Enter phone number",

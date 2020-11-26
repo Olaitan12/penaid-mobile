@@ -2,18 +2,22 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class AppDropdown extends StatefulWidget {
-  dynamic value;
-  final List list;
+  final String value;
+  final List<Map<String, String>> listOfMap;
+  final List<String> listOfString;
   final String valueKey;
   final String textKey;
   final String placeholder;
-  final Function(dynamic value) onChanged;
+  final void Function(dynamic value) onChanged;
   final Widget icon;
   AppDropdown(
-      {@required this.list,
-      @required this.value,
+      {
+      // @required this.list,
+      this.value,
       @required this.placeholder,
       @required this.onChanged,
+      this.listOfMap,
+      this.listOfString,
       this.icon,
       this.textKey,
       this.valueKey});
@@ -51,18 +55,29 @@ class _AppDropdown extends State<AppDropdown> {
               padding: EdgeInsets.only(left: 10),
               child: Text(widget.placeholder)),
           isExpanded: true,
-          value: widget.value,
-          items: widget.list.map((item) {
-            return DropdownMenuItem<String>(
-              value: widget.valueKey == null ? item : item[widget.valueKey],
-              child: Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: widget.textKey == null
-                    ? Text(item)
-                    : Text(item[widget.textKey]),
-              ),
-            );
-          }).toList(),
+          value:
+              widget.value != null && widget.value == "" ? null : widget.value,
+          items: widget.listOfString != null
+              ? widget.listOfString
+                  .map<DropdownMenuItem<String>>(
+                      (e) => DropdownMenuItem<String>(
+                            value: e,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text(e),
+                            ),
+                          ))
+                  .toList()
+              : widget.listOfMap
+                  .map<DropdownMenuItem<String>>(
+                      (e) => DropdownMenuItem<String>(
+                            value: e[widget.valueKey],
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text(e[widget.textKey].toString()),
+                            ),
+                          ))
+                  .toList(),
           onChanged: widget.onChanged,
         ),
       ),
